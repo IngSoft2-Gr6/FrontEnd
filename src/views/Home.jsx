@@ -1,10 +1,8 @@
 import { Paper } from "@mui/material";
-import Nav from "../components/Nav";
 
 const Home = () => {
 	return (
 		<div>
-			<Nav />
 			<div style={{ marginTop: "2rem" }}>
 				<h1>Home</h1>
 				<Paper style={{ padding: "1rem" }}>

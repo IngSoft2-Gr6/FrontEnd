@@ -6,10 +6,12 @@ import Signup from "./views/Signup.jsx";
 import Home from "./views/Home";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
+import Nav from "./components/Nav";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
+		<Nav />
 		<BrowserRouter>
 			<Routes>
 				<Route path="/home" element={<Home />} />
