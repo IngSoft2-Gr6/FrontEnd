@@ -11,6 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import * as yup from "yup";
+import API from "../config/axios";
 
 const schema = yup.object().shape({
 	email: yup.string().email("Invalid email").required("Email is required"),
@@ -35,9 +36,15 @@ const LoginForm = () => {
 	const onSubmit = (data) => {
 		console.log(data);
 		setSubmitting(true);
-		setTimeout(() => {
-			setSubmitting(false);
-		}, 5000);
+		API.post("/users/login", data)
+			.then((res) => {
+				console.log(res);
+				setSubmitting(false);
+			})
+			.catch((err) => {
+				console.log(err);
+				setSubmitting(false);
+			});
 	};
 
 	return (
