@@ -1,5 +1,7 @@
 import "../assets/css/Forms.css";
 
+import API from "../config/axios";
+
 import { Form, Input, Button, Select, Typography } from "antd";
 
 const { Item } = Form;
@@ -9,7 +11,13 @@ const { Title, Text } = Typography;
 
 const SignupForm = () => {
 	const handleSubmit = (values) => {
-		console.log(values);
+		API.post("/users/signup", values)
+			.then((res) => {
+				console.log(res.data.message);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 	return (
 		<>

@@ -1,5 +1,7 @@
 import "../assets/css/Forms.css";
 
+import API from "../config/axios";
+
 import { Form, Input, Button, Checkbox, Typography } from "antd";
 
 const { Item } = Form;
@@ -8,7 +10,13 @@ const { Title, Text } = Typography;
 
 const LoginForm = () => {
 	const handleSubmit = (values) => {
-		console.log(values);
+		API.post("/users/login", values)
+			.then((res) => {
+				console.log(res.data.message);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 	return (
 		<>
