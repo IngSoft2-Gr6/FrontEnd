@@ -6,11 +6,11 @@ import {
 	IconButton,
 	InputAdornment,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import * as yup from "yup";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const schema = yup.object().shape({
 	email: yup.string().email("Invalid email").required("Email is required"),

@@ -5,12 +5,14 @@ import {
 	LinearProgress,
 	InputAdornment,
 	IconButton,
+	FormGroup,
+	MenuItem,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import * as yup from "yup";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const schema = yup.object().shape({
 	name: yup.string().required("Name is required"),
@@ -23,6 +25,9 @@ const schema = yup.object().shape({
 		.string()
 		.required("Password confirmation is required")
 		.oneOf([yup.ref("password")], "Passwords must match"),
+	identityCardType: yup.number().required("Identity card type is required"),
+	identityCard: yup.string().required("Identity card is required"),
+	roleId: yup.number().required("Role is required"),
 });
 
 const SignupForm = () => {
@@ -39,7 +44,7 @@ const SignupForm = () => {
 	});
 
 	const onSubmit = (data) => {
-		console.log(data);
+		console.log({ ...data });
 		setSubmitting(true);
 		setTimeout(() => {
 			setSubmitting(false);
@@ -59,6 +64,7 @@ const SignupForm = () => {
 					helperText={errors.name?.message}
 					error={!!errors.name}
 					margin="dense"
+					required
 					fullWidth
 				/>
 				<TextField
@@ -68,6 +74,7 @@ const SignupForm = () => {
 					helperText={errors.email?.message}
 					error={!!errors.email}
 					margin="dense"
+					required
 					fullWidth
 				/>
 				<TextField
@@ -77,6 +84,7 @@ const SignupForm = () => {
 					helperText={errors.password?.message}
 					error={!!errors.password}
 					margin="dense"
+					required
 					fullWidth
 					type={showPassword ? "text" : "password"}
 					InputProps={{
@@ -101,6 +109,7 @@ const SignupForm = () => {
 					helperText={errors.passwordConfirm?.message}
 					error={!!errors.passwordConfirm}
 					margin="dense"
+					required
 					fullWidth
 					type={showPasswordConfirm ? "text" : "password"}
 					InputProps={{
@@ -118,6 +127,59 @@ const SignupForm = () => {
 						),
 					}}
 				/>
+				<FormGroup row>
+					<TextField
+						name="identityCardType"
+						label="Identity Card Type"
+						{...register("identityCardType")}
+						helperText={errors.identityCardType?.message}
+						error={!!errors.identityCardType}
+						margin="dense"
+						required
+						style={{ width: "50%" }}
+						defaultValue={1}
+						select
+					>
+						<MenuItem value={1}>Identity Card</MenuItem>
+						<MenuItem value={2}>Passport</MenuItem>
+						<MenuItem value={3}>Driving License</MenuItem>
+					</TextField>
+					{/* <div style={{ width: "1%" }}></div> */}
+					<TextField
+						name="identityCard"
+						label="Identity Card Number"
+						{...register("identityCard")}
+						helperText={errors.identityCard?.message}
+						error={!!errors.identityCard}
+						style={{ width: "50%" }}
+						required
+						margin="dense"
+					/>
+				</FormGroup>
+				<TextField
+					name="phone"
+					label="Phone"
+					{...register("phone")}
+					helperText={errors.phone?.message}
+					error={!!errors.phone}
+					margin="dense"
+					fullWidth
+				/>
+				<TextField
+					name="roleId"
+					label="Role"
+					{...register("roleId")}
+					helperText={errors.roleId?.message}
+					error={!!errors.roleId}
+					margin="dense"
+					required
+					defaultValue={2}
+					select
+					fullWidth
+				>
+					<MenuItem value={2}>Driver</MenuItem>
+					<MenuItem value={3}>Owner</MenuItem>
+				</TextField>
 				<hr />
 				<Button
 					type="submit"
