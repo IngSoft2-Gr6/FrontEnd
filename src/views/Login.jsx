@@ -3,7 +3,7 @@ import LoginForm from "../components/LoginForm";
 const Login = () => {
 	return (
 		<div>
-			<div style={{ marginTop: "2rem" }}>
+			<div style={{ width: "30rem", margin: "0 auto" }}>
 				<LoginForm />
 			</div>
 		</div>
