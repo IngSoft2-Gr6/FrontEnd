@@ -60,7 +60,7 @@ const LoginForm = () => {
 						</Item>
 					</Form>
 					<Text>
-						No tienes una cuenta? <a href="/users/register">Registrate!</a>
+						No tienes una cuenta? <a href="/users/signup">Registrate!</a>
 					</Text>
 				</div>
 			</div>

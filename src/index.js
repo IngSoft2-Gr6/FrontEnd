@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import LoginForm from "./components/LoginForm";
-import SignupForm from "./components/SignupForm";
+import LoginView from "./views/LoginView";
+import SignupView from "./views/SignupView";
 
 import {
 	BrowserRouter as Router,
@@ -20,8 +20,8 @@ root.render(
 		<Router>
 			<Routes>
 				<Route path="users">
-					<Route path="signup" element={<SignupForm />} />
-					<Route path="login" element={<LoginForm />} />
+					<Route path="signup" element={<SignupView />} />
+					<Route path="login" element={<LoginView />} />
 				</Route>
 				<Route path="*" element={<Navigate replace to="/users/login" />} />
 			</Routes>
