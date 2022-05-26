@@ -2,16 +2,30 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-// import LoginForm from "./components/LoginForm";
+import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
+
+import {
+	BrowserRouter as Router,
+	Route,
+	Routes,
+	Navigate,
+} from "react-router-dom";
 
 import "antd/dist/antd.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
-		{/* <LoginForm /> */}
-		<SignupForm />
+		<Router>
+			<Routes>
+				<Route path="users">
+					<Route path="signup" element={<SignupForm />} />
+					<Route path="login" element={<LoginForm />} />
+				</Route>
+				<Route path="*" element={<Navigate replace to="/users/login" />} />
+			</Routes>
+		</Router>
 	</React.StrictMode>
 );
 
