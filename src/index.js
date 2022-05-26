@@ -1,12 +1,17 @@
+import "./index.css";
+
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./views/Login";
-import Signup from "./views/Signup.jsx";
-import Home from "./views/Home";
-import "./index.css";
 import reportWebVitals from "./reportWebVitals";
+
+// import Views
+import Login from "./views/Login";
+import Signup from "./views/Signup";
+import Home from "./views/Home";
 import Nav from "./components/Nav";
+import Profile from "./views/Profile";
+
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,6 +22,7 @@ root.render(
 				<Route path="/home" element={<Home />} />
 				<Route path="/users/login" element={<Login />} />
 				<Route path="/users/signup" element={<Signup />} />
+				<Route path="/users/profile" element={<Profile />} />
 				<Route path="*" element={<Navigate to="/home" />} />
 			</Routes>
 		</BrowserRouter>

@@ -5,6 +5,7 @@ const Nav = () => {
 		{ label: "Home", href: "/home" },
 		{ label: "Login", href: "/users/login" },
 		{ label: "Signup", href: "/users/signup" },
+		{ label: "profile", href: "/users/profile" },
 	];
 
 	const url = new URL(window.location.href);
