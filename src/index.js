@@ -2,14 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import LoginForm from "./components/LoginForm";
+// import LoginForm from "./components/LoginForm";
+import SignupForm from "./components/SignupForm";
 
 import "antd/dist/antd.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
-		<LoginForm />
+		{/* <LoginForm /> */}
 		<SignupForm />
 	</React.StrictMode>
 );
