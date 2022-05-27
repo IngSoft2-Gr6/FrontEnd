@@ -1,15 +1,21 @@
 import {
-	Paper,
-	TextField,
 	Button,
-	LinearProgress,
+	Checkbox,
+	FormControlLabel,
+	FormGroup,
 	IconButton,
 	InputAdornment,
+	LinearProgress,
+	Link,
+	Paper,
+	TextField,
+	Typography,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+
 import * as yup from "yup";
 import API from "../config/axios";
 
@@ -47,10 +53,23 @@ const LoginForm = () => {
 			});
 	};
 
+	const forgotPassword = () => {
+		// TODO: forgot password functionality
+		console.log("forgot password");
+	};
+
 	return (
-		<Paper style={{ padding: "1rem" }}>
-			<div>{submitting && <LinearProgress />}</div>
-			<h1 align="center">Login</h1>
+		<Paper elevation={24} style={{ padding: "1rem", borderRadius: "1rem" }}>
+			{submitting && <LinearProgress />}
+			{/* // bold */}
+			<Typography
+				align="center"
+				gutterBottom
+				variant="h4"
+				style={{ fontWeight: "bold" }}
+			>
+				Login
+			</Typography>
 			<hr />
 			<form>
 				<TextField
@@ -59,8 +78,9 @@ const LoginForm = () => {
 					{...register("email")}
 					helperText={errors.email?.message}
 					error={!!errors.email}
-					margin="normal"
 					fullWidth
+					margin="normal"
+					required
 				/>
 				<TextField
 					name="password"
@@ -68,8 +88,9 @@ const LoginForm = () => {
 					{...register("password")}
 					helperText={errors.password?.message}
 					error={!!errors.password}
-					margin="normal"
 					fullWidth
+					margin="normal"
+					required
 					type={showPassword ? "text" : "password"}
 					InputProps={{
 						endAdornment: (
@@ -85,17 +106,39 @@ const LoginForm = () => {
 						),
 					}}
 				/>
+				<Typography variant="body2" color="textSecondary" align="center">
+					<Link onClick={forgotPassword} style={{ textDecoration: "none" }}>
+						Forgot Password?
+					</Link>
+				</Typography>
+				<FormGroup row style={{ justifyContent: "center" }}>
+					<FormControlLabel
+						control={<Checkbox color="primary" defaultChecked />}
+						label="Remember me"
+					/>
+				</FormGroup>
 				<hr />
 				<Button
+					color="primary"
+					fullWidth
+					margin="normal"
 					type="submit"
 					variant="contained"
-					color="primary"
-					margin="normal"
 					onClick={handleSubmit(onSubmit)}
-					fullWidth
 				>
 					Login
 				</Button>
+				<Typography
+					align="center"
+					color="textSecondary"
+					variant="body2"
+					style={{ marginTop: "1rem" }}
+				>
+					Not a member?{" "}
+					<Link href="/users/signup" style={{ textDecoration: "none" }}>
+						Sign Up
+					</Link>
+				</Typography>
 			</form>
 		</Paper>
 	);

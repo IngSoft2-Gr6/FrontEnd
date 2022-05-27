@@ -1,16 +1,23 @@
-import { Paper } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 
 const Home = () => {
 	return (
-		<div>
-			<div style={{ marginTop: "2rem" }}>
-				<h1>Home</h1>
-				<Paper style={{ padding: "1rem" }}>
-					<h2>Welcome to the home page!</h2>
-					{/* Talk about SParking using Lorem Ipsum */}
-				</Paper>
-			</div>
-		</div>
+		<Container maxWidth="sm">
+			<Box my={4}>
+				<Typography
+					variant="h4"
+					component="h1"
+					align="center"
+					gutterBottom
+					color="textPrimary"
+				>
+					Home
+				</Typography>
+				<Typography mt={6} mb={3} align="center" color="textSecondary">
+					Welcome to the home page of SParking!
+				</Typography>
+			</Box>
+		</Container>
 	);
 };
 

@@ -1,27 +1,38 @@
-import { Tabs, Tab } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Nav = () => {
-	const paths = [
-		{ label: "Home", href: "/home" },
-		{ label: "Login", href: "/users/login" },
-		{ label: "Signup", href: "/users/signup" },
-		{ label: "profile", href: "/users/profile" },
-	];
+const Nav = (props) => {
+	const [currTab, setCurrTab] = useState(
+		props.paths.findIndex(({ href }) => href === window.location.pathname)
+	);
 
-	const url = new URL(window.location.href);
-	const tab = paths.findIndex((path) => path.href === url.pathname);
+	const handleChange = (_, value) => setCurrTab(value);
 
 	return (
-		<Tabs value={tab}>
-			{paths.map((path, index) => (
-				<Tab
-					label={path.label}
-					href={path.href}
-					value={index}
-					key={path.label}
-				/>
-			))}
-		</Tabs>
+		<Box p={2}>
+			<Tabs value={currTab} onChange={handleChange} centered>
+				{props.paths.map((path, index) => (
+					<Tab
+						sx={{
+							fontWeight: "bold",
+							bgcolor: "primary.main",
+							color: "primary.contrastText",
+							"&.Mui-selected": {
+								bgcolor: "primary.dark",
+								color: "primary.contrastText",
+							},
+							margin: "0.5rem",
+							borderRadius: "0.5rem",
+						}}
+						key={index}
+						label={path.label}
+						component={Link}
+						to={path.href}
+					/>
+				))}
+			</Tabs>
+		</Box>
 	);
 };
 

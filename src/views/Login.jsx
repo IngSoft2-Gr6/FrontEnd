@@ -1,12 +1,13 @@
+import { Box, Container } from "@mui/material";
 import LoginForm from "../components/LoginForm";
 
 const Login = () => {
 	return (
-		<div>
-			<div style={{ width: "30rem", margin: "0 auto" }}>
+		<Container maxWidth="sm">
+			<Box my={4}>
 				<LoginForm />
-			</div>
-		</div>
+			</Box>
+		</Container>
 	);
 };
 

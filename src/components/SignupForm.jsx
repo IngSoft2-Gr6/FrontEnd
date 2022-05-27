@@ -1,17 +1,20 @@
 import {
+	Button,
+	FormGroup,
+	IconButton,
+	InputAdornment,
+	LinearProgress,
+	Link,
+	MenuItem,
 	Paper,
 	TextField,
-	Button,
-	LinearProgress,
-	InputAdornment,
-	IconButton,
-	FormGroup,
-	MenuItem,
+	Typography,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+
 import * as yup from "yup";
 import API from "../config/axios";
 
@@ -59,7 +62,7 @@ const SignupForm = () => {
 	};
 
 	return (
-		<Paper style={{ padding: "1rem" }}>
+		<Paper elevation={24} style={{ padding: "1rem", borderRadius: "1rem" }}>
 			<div>{submitting && <LinearProgress />}</div>
 			<h1 align="center">Signup</h1>
 			<hr />
@@ -70,9 +73,9 @@ const SignupForm = () => {
 					{...register("name")}
 					helperText={errors.name?.message}
 					error={!!errors.name}
+					fullWidth
 					margin="dense"
 					required
-					fullWidth
 				/>
 				<TextField
 					name="email"
@@ -80,9 +83,9 @@ const SignupForm = () => {
 					{...register("email")}
 					helperText={errors.email?.message}
 					error={!!errors.email}
+					fullWidth
 					margin="dense"
 					required
-					fullWidth
 				/>
 				<TextField
 					name="password"
@@ -90,18 +93,16 @@ const SignupForm = () => {
 					{...register("password")}
 					helperText={errors.password?.message}
 					error={!!errors.password}
+					fullWidth
 					margin="dense"
 					required
-					fullWidth
 					type={showPassword ? "text" : "password"}
 					InputProps={{
 						endAdornment: (
 							<InputAdornment position="end">
 								<IconButton
 									aria-label="toggle password visibility"
-									onClick={() => {
-										setShowPassword(!showPassword);
-									}}
+									onClick={() => setShowPassword(!showPassword)}
 								>
 									{showPassword ? <Visibility /> : <VisibilityOff />}
 								</IconButton>
@@ -115,18 +116,15 @@ const SignupForm = () => {
 					{...register("passwordConfirm")}
 					helperText={errors.passwordConfirm?.message}
 					error={!!errors.passwordConfirm}
+					fullWidth
 					margin="dense"
 					required
-					fullWidth
 					type={showPasswordConfirm ? "text" : "password"}
 					InputProps={{
 						endAdornment: (
 							<InputAdornment position="end">
 								<IconButton
-									aria-label="toggle password visibility"
-									onClick={() => {
-										setShowPasswordConfirm(!showPasswordConfirm);
-									}}
+									onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
 								>
 									{showPasswordConfirm ? <Visibility /> : <VisibilityOff />}
 								</IconButton>
@@ -134,7 +132,10 @@ const SignupForm = () => {
 						),
 					}}
 				/>
-				<FormGroup row>
+				<FormGroup
+					sx={{ display: "flex", justifyContent: "space-between" }}
+					row
+				>
 					<TextField
 						name="identityCardType"
 						label="Identity Card Type"
@@ -142,25 +143,24 @@ const SignupForm = () => {
 						helperText={errors.identityCardType?.message}
 						error={!!errors.identityCardType}
 						margin="dense"
-						required
-						style={{ width: "50%" }}
-						defaultValue={1}
 						select
+						required
+						defaultValue={1}
+						style={{ width: "49%" }}
 					>
 						<MenuItem value={1}>Identity Card</MenuItem>
 						<MenuItem value={2}>Passport</MenuItem>
 						<MenuItem value={3}>Driving License</MenuItem>
 					</TextField>
-					{/* <div style={{ width: "1%" }}></div> */}
 					<TextField
 						name="identityCard"
 						label="Identity Card Number"
 						{...register("identityCard")}
 						helperText={errors.identityCard?.message}
 						error={!!errors.identityCard}
-						style={{ width: "50%" }}
-						required
 						margin="dense"
+						required
+						style={{ width: "49%" }}
 					/>
 				</FormGroup>
 				<TextField
@@ -179,25 +179,36 @@ const SignupForm = () => {
 					helperText={errors.roleId?.message}
 					error={!!errors.roleId}
 					margin="dense"
-					required
-					defaultValue={2}
-					select
 					fullWidth
+					required
+					select
+					defaultValue={2}
 				>
 					<MenuItem value={2}>Driver</MenuItem>
 					<MenuItem value={3}>Owner</MenuItem>
 				</TextField>
 				<hr />
 				<Button
-					type="submit"
-					variant="contained"
 					color="primary"
 					margin="dense"
-					onClick={handleSubmit(onSubmit)}
+					type="submit"
+					variant="contained"
 					fullWidth
+					onClick={handleSubmit(onSubmit)}
 				>
 					Signup
 				</Button>
+				<Typography
+					align="center"
+					color="textSecondary"
+					variant="body2"
+					style={{ marginTop: "1rem" }}
+				>
+					Already have an account?{" "}
+					<Link href="/users/login" style={{ textDecoration: "none" }}>
+						Login
+					</Link>
+				</Typography>
 			</form>
 		</Paper>
 	);
