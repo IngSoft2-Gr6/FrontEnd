@@ -27,7 +27,6 @@ const Profile = () => {
 					identityCardType,
 					roles,
 				} = res.data.data;
-
 				const roleNames = roles.map((role) => role.name);
 				setUser({
 					Name: name,
@@ -48,14 +47,14 @@ const Profile = () => {
 	return (
 		<Container maxWidth="sm">
 			<Box my={4}>
-				<Typography variant="h4" component="h1" gutterBottom align="center">
+				<Typography align="center" component="h1" gutterBottom variant="h4">
 					Your Profile
 				</Typography>
 				<Typography
 					mt={6}
 					mb={3}
-					color={verified ? "success" : "error"}
 					align="center"
+					color={verified ? "success.main" : "error.main"}
 				>
 					{verified
 						? "Your profile is verified"

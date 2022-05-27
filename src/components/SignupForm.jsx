@@ -1,22 +1,16 @@
-import {
-	Button,
-	FormGroup,
-	IconButton,
-	InputAdornment,
-	LinearProgress,
-	Link,
-	MenuItem,
-	Paper,
-	TextField,
-	Typography,
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { LinearProgress, Link, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 
 import * as yup from "yup";
 import API from "../config/axios";
+import {
+	Form,
+	FormButton,
+	FormGroup,
+	FormInput,
+	FormPassword,
+	FormSelect,
+} from "./Form";
 
 const schema = yup.object().shape({
 	name: yup.string().required("Name is required"),
@@ -36,16 +30,19 @@ const schema = yup.object().shape({
 
 const SignupForm = () => {
 	const [submitting, setSubmitting] = useState(false);
-	const [showPassword, setShowPassword] = useState(false);
-	const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm({
-		resolver: yupResolver(schema),
-	});
+	const identityCardTypes = [
+		{ value: 1, label: "Identity card" },
+		{ value: 2, label: "Passport" },
+		{ value: 3, label: "Driving license" },
+		{ value: 4, label: "Other" },
+	];
+
+	const roles = [
+		{ value: 2, label: "Driver" },
+		{ value: 3, label: "Parking Lot Owner" },
+		{ value: 4, label: "Employee" },
+	];
 
 	const onSubmit = (data) => {
 		console.log({ ...data });
@@ -63,8 +60,72 @@ const SignupForm = () => {
 
 	return (
 		<Paper elevation={24} style={{ padding: "1rem", borderRadius: "1rem" }}>
-			<div>{submitting && <LinearProgress />}</div>
-			<h1 align="center">Signup</h1>
+			{submitting && <LinearProgress />}
+			<Form title="Signup" schema={schema} onSubmit={onSubmit}>
+				<Typography
+					align="center"
+					variant="h4"
+					gutterBottom
+					style={{ fontWeight: "bold" }}
+				>
+					Signup
+				</Typography>
+				<FormInput label="Name" name="name" required />
+				<FormInput label="Email" name="email" required />
+				<FormPassword label="Password" name="password" required />
+				<FormPassword
+					label="Confirm password"
+					name="passwordConfirm"
+					required
+				/>
+				<FormGroup
+					sx={{ justifyContent: "space-between", display: "flex" }}
+					row
+				>
+					<FormSelect
+						label="Identity card type"
+						name="identityCardType"
+						defaultValue={1}
+						options={identityCardTypes}
+						required
+						style={{ width: "40%" }}
+					/>
+					<FormInput
+						label="Identity card"
+						name="identityCard"
+						required
+						style={{ width: "59%" }}
+					/>
+				</FormGroup>
+				<FormInput label="Phone number" name="phoneNumber" required />
+				<FormSelect
+					label="Role"
+					name="roleId"
+					defaultValue={2}
+					options={roles}
+					required
+				/>
+				<FormButton label="Signup" />
+				<Typography
+					align="center"
+					color="textSecondary"
+					variant="body2"
+					style={{ marginTop: "1rem" }}
+				>
+					Already have an account?{" "}
+					<Link href="/users/login" style={{ textDecoration: "none" }}>
+						Login
+					</Link>
+				</Typography>
+			</Form>
+			{/* <Typography
+				align="center"
+				variant="h4"
+				gutterBottom
+				style={{ fontWeight: "bold" }}
+			>
+				Signup
+			</Typography>
 			<hr />
 			<form>
 				<TextField
@@ -209,7 +270,7 @@ const SignupForm = () => {
 						Login
 					</Link>
 				</Typography>
-			</form>
+			</form> */}
 		</Paper>
 	);
 };
