@@ -49,7 +49,7 @@ const SignupForm = () => {
 		{ value: 4, label: "Employee" },
 	];
 
-	const onSubmit = (data) => {
+	const handleSubmit = (data) => {
 		console.log(data);
 		setSubmitting(true);
 		API.post("/users/signup", data)
@@ -81,7 +81,7 @@ const SignupForm = () => {
 					{success}
 				</Typography>
 			)}
-			<Form title="Signup" schema={schema} onSubmit={onSubmit}>
+			<Form title="Signup" schema={schema} onSubmit={handleSubmit}>
 				<Typography
 					align="center"
 					variant="h4"
@@ -133,7 +133,10 @@ const SignupForm = () => {
 					style={{ marginTop: "1rem" }}
 				>
 					Already have an account?{" "}
-					<Link href="/users/login" style={{ textDecoration: "none" }}>
+					<Link
+						style={{ textDecoration: "none", cursor: "pointer" }}
+						onClick={() => navigate("/users/login")}
+					>
 						Login
 					</Link>
 				</Typography>

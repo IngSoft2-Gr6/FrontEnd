@@ -24,6 +24,8 @@ const LoginForm = () => {
 	const [submitting, setSubmitting] = useState(false);
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState("");
+	const [email, setEmail] = useState("");
+
 	const navigate = useNavigate();
 
 	const onSubmit = (data) => {
@@ -49,6 +51,21 @@ const LoginForm = () => {
 	const forgotPassword = () => {
 		// TODO: forgot password functionality
 		console.log("forgot password");
+		console.log("Curr data: ", { email });
+		setSubmitting(true);
+		API.post("/users/password", { email })
+			.then((res) => {
+				console.log(res);
+				setSubmitting(false);
+				setSuccess(res.data?.message || "Password reset email sent");
+				setError("");
+			})
+			.catch((err) => {
+				console.log("Error caught: ", err);
+				setSubmitting(false);
+				setError(err.response.data?.message || "Something went wrong");
+				setSuccess("");
+			});
 	};
 
 	return (
@@ -73,11 +90,21 @@ const LoginForm = () => {
 				>
 					Login
 				</Typography>
-				<FormInput name="email" label="Email" />
+				<FormInput
+					name="email"
+					label="Email"
+					onChange={(e) => {
+						console.log("email changed: ", e.target.value);
+						setEmail(e.target.value);
+					}}
+				/>
 				<FormPassword name="password" label="Password" />
 				<FormCheckbox name="remember" label="Remember me" defaultChecked />
 				<Typography variant="body2" color="textSecondary" align="center">
-					<Link onClick={forgotPassword} style={{ textDecoration: "none" }}>
+					<Link
+						style={{ textDecoration: "none", cursor: "pointer" }}
+						onClick={forgotPassword}
+					>
 						Forgot Password?
 					</Link>
 				</Typography>
@@ -89,7 +116,10 @@ const LoginForm = () => {
 					style={{ marginTop: "1rem" }}
 				>
 					Not a member?{" "}
-					<Link href="/users/signup" style={{ textDecoration: "none" }}>
+					<Link
+						style={{ textDecoration: "none", cursor: "pointer" }}
+						onClick={() => navigate("/users/signup")}
+					>
 						Sign Up
 					</Link>
 				</Typography>

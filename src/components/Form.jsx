@@ -36,7 +36,15 @@ const Form = ({ onSubmit, children, schema, title, ...props }) => {
 	);
 };
 
-const FormInput = ({ name, label, register, errors, required, ...props }) => {
+const FormInput = ({
+	name,
+	label,
+	register,
+	errors,
+	required,
+	onChange,
+	...props
+}) => {
 	const reg = register.register;
 	return (
 		<TextField
@@ -48,6 +56,7 @@ const FormInput = ({ name, label, register, errors, required, ...props }) => {
 			helperText={errors?.[name]?.message}
 			fullWidth
 			margin="normal"
+			onChange={onChange}
 		/>
 	);
 };

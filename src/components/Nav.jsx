@@ -28,7 +28,11 @@ const Nav = (props) => {
 
 	return (
 		<Box p={2}>
-			<Tabs value={currTab} style={{ backgroundColor: "background.paper" }}>
+			<Tabs
+				value={currTab}
+				style={{ backgroundColor: "background.paper" }}
+				centered
+			>
 				{tabs.map((path, index) => (
 					<Tab
 						sx={{
