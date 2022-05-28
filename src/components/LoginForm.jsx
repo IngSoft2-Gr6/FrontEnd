@@ -1,5 +1,6 @@
 import { LinearProgress, Link, Paper, Typography } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import * as yup from "yup";
 import API from "../config/axios";
@@ -21,18 +22,27 @@ const schema = yup.object().shape({
 
 const LoginForm = () => {
 	const [submitting, setSubmitting] = useState(false);
+	const [error, setError] = useState("");
+	const [success, setSuccess] = useState("");
+	const navigate = useNavigate();
 
 	const onSubmit = (data) => {
-		console.log({ data });
+		console.log(data);
 		setSubmitting(true);
 		API.post("/users/login", data)
 			.then((res) => {
 				console.log(res);
 				setSubmitting(false);
+				setSuccess(res.data?.message || "Login successful");
+				setError("");
+				localStorage.setItem("loggedIn", true);
+				navigate("/home");
 			})
 			.catch((err) => {
-				console.log(err);
+				console.log("Error caught: ", err);
 				setSubmitting(false);
+				setError(err.response.data?.message || "Something went wrong");
+				setSuccess("");
 			});
 	};
 
@@ -44,6 +54,16 @@ const LoginForm = () => {
 	return (
 		<Paper elevation={24} style={{ padding: "1rem", borderRadius: "1rem" }}>
 			{submitting && <LinearProgress />}
+			{error && (
+				<Typography variant="body2" color="error.main">
+					{error}
+				</Typography>
+			)}
+			{success && (
+				<Typography variant="body2" color="success.main">
+					{success}
+				</Typography>
+			)}
 			<Form title="Login" schema={schema} onSubmit={onSubmit}>
 				<Typography
 					align="center"

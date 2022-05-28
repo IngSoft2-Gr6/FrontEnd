@@ -1,5 +1,6 @@
 import { LinearProgress, Link, Paper, Typography } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import * as yup from "yup";
 import API from "../config/axios";
@@ -29,7 +30,11 @@ const schema = yup.object().shape({
 });
 
 const SignupForm = () => {
+	const navigate = useNavigate();
+
 	const [submitting, setSubmitting] = useState(false);
+	const [error, setError] = useState("");
+	const [success, setSuccess] = useState("");
 
 	const identityCardTypes = [
 		{ value: 1, label: "Identity card" },
@@ -45,22 +50,37 @@ const SignupForm = () => {
 	];
 
 	const onSubmit = (data) => {
-		console.log({ ...data });
+		console.log(data);
 		setSubmitting(true);
 		API.post("/users/signup", data)
 			.then((res) => {
 				console.log(res);
 				setSubmitting(false);
+				setSuccess(res.data?.message || "Signup successful");
+				setError("");
+				navigate("/users/login");
 			})
 			.catch((err) => {
 				console.log(err);
 				setSubmitting(false);
+				setError(err.response.data?.message || "Something went wrong");
+				setSuccess("");
 			});
 	};
 
 	return (
 		<Paper elevation={24} style={{ padding: "1rem", borderRadius: "1rem" }}>
 			{submitting && <LinearProgress />}
+			{error && (
+				<Typography variant="body2" color="error.main">
+					{error}
+				</Typography>
+			)}
+			{success && (
+				<Typography variant="body2" color="success.main">
+					{success}
+				</Typography>
+			)}
 			<Form title="Signup" schema={schema} onSubmit={onSubmit}>
 				<Typography
 					align="center"
@@ -97,7 +117,7 @@ const SignupForm = () => {
 						style={{ width: "59%" }}
 					/>
 				</FormGroup>
-				<FormInput label="Phone number" name="phoneNumber" required />
+				<FormInput label="Phone number" name="phone" />
 				<FormSelect
 					label="Role"
 					name="roleId"
@@ -118,159 +138,6 @@ const SignupForm = () => {
 					</Link>
 				</Typography>
 			</Form>
-			{/* <Typography
-				align="center"
-				variant="h4"
-				gutterBottom
-				style={{ fontWeight: "bold" }}
-			>
-				Signup
-			</Typography>
-			<hr />
-			<form>
-				<TextField
-					name="name"
-					label="Name"
-					{...register("name")}
-					helperText={errors.name?.message}
-					error={!!errors.name}
-					fullWidth
-					margin="dense"
-					required
-				/>
-				<TextField
-					name="email"
-					label="Email"
-					{...register("email")}
-					helperText={errors.email?.message}
-					error={!!errors.email}
-					fullWidth
-					margin="dense"
-					required
-				/>
-				<TextField
-					name="password"
-					label="Password"
-					{...register("password")}
-					helperText={errors.password?.message}
-					error={!!errors.password}
-					fullWidth
-					margin="dense"
-					required
-					type={showPassword ? "text" : "password"}
-					InputProps={{
-						endAdornment: (
-							<InputAdornment position="end">
-								<IconButton
-									aria-label="toggle password visibility"
-									onClick={() => setShowPassword(!showPassword)}
-								>
-									{showPassword ? <Visibility /> : <VisibilityOff />}
-								</IconButton>
-							</InputAdornment>
-						),
-					}}
-				/>
-				<TextField
-					name="passwordConfirm"
-					label="Confirm Password"
-					{...register("passwordConfirm")}
-					helperText={errors.passwordConfirm?.message}
-					error={!!errors.passwordConfirm}
-					fullWidth
-					margin="dense"
-					required
-					type={showPasswordConfirm ? "text" : "password"}
-					InputProps={{
-						endAdornment: (
-							<InputAdornment position="end">
-								<IconButton
-									onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
-								>
-									{showPasswordConfirm ? <Visibility /> : <VisibilityOff />}
-								</IconButton>
-							</InputAdornment>
-						),
-					}}
-				/>
-				<FormGroup
-					sx={{ display: "flex", justifyContent: "space-between" }}
-					row
-				>
-					<TextField
-						name="identityCardType"
-						label="Identity Card Type"
-						{...register("identityCardType")}
-						helperText={errors.identityCardType?.message}
-						error={!!errors.identityCardType}
-						margin="dense"
-						select
-						required
-						defaultValue={1}
-						style={{ width: "49%" }}
-					>
-						<MenuItem value={1}>Identity Card</MenuItem>
-						<MenuItem value={2}>Passport</MenuItem>
-						<MenuItem value={3}>Driving License</MenuItem>
-					</TextField>
-					<TextField
-						name="identityCard"
-						label="Identity Card Number"
-						{...register("identityCard")}
-						helperText={errors.identityCard?.message}
-						error={!!errors.identityCard}
-						margin="dense"
-						required
-						style={{ width: "49%" }}
-					/>
-				</FormGroup>
-				<TextField
-					name="phone"
-					label="Phone"
-					{...register("phone")}
-					helperText={errors.phone?.message}
-					error={!!errors.phone}
-					margin="dense"
-					fullWidth
-				/>
-				<TextField
-					name="roleId"
-					label="Role"
-					{...register("roleId")}
-					helperText={errors.roleId?.message}
-					error={!!errors.roleId}
-					margin="dense"
-					fullWidth
-					required
-					select
-					defaultValue={2}
-				>
-					<MenuItem value={2}>Driver</MenuItem>
-					<MenuItem value={3}>Owner</MenuItem>
-				</TextField>
-				<hr />
-				<Button
-					color="primary"
-					margin="dense"
-					type="submit"
-					variant="contained"
-					fullWidth
-					onClick={handleSubmit(onSubmit)}
-				>
-					Signup
-				</Button>
-				<Typography
-					align="center"
-					color="textSecondary"
-					variant="body2"
-					style={{ marginTop: "1rem" }}
-				>
-					Already have an account?{" "}
-					<Link href="/users/login" style={{ textDecoration: "none" }}>
-						Login
-					</Link>
-				</Typography>
-			</form> */}
 		</Paper>
 	);
 };
