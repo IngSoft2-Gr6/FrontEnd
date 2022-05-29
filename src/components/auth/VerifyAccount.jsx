@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
-import API from "../config/axios";
-import { until } from "../helpers/until";
+import API from "../../config/axios";
+import { until } from "../../helpers/until";
 
 const VerifyAccount = () => {
 	const location = useLocation();

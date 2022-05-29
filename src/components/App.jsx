@@ -5,15 +5,14 @@ import {
 	Routes,
 } from "react-router-dom";
 
-import Nav from "./Nav";
-import VerifyAccount from "./VerifyAccount";
+import Nav from "./layout/Nav";
 
 import { Home, Login, Profile, Signup } from "../views";
 import { ThemeProvider, Switch } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
-import { getTheme, toggleTheme } from "../theme";
+import { getTheme, toggleTheme } from "./theme";
 import { useEffect, useState } from "react";
-import Logout from "./Logout";
+import { VerifyAccount, Logout } from "./auth";
 
 const App = () => {
 	const paths = [{ label: "Home", href: "/home" }];

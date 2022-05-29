@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
 	Button,
+	FormGroup,
 	LinearProgress,
 	Link,
 	Paper,
@@ -10,58 +11,60 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { FormCheckbox, FormPassword } from "./Form";
 
 import * as yup from "yup";
-import API from "../config/axios";
-import { until } from "../helpers/until";
+import API from "../../config/axios";
+import { until } from "../../helpers/until";
+import { FormPassword, FormSelect } from "../form";
 
 const schema = yup.object().shape({
+	name: yup.string().required("Name is required"),
 	email: yup.string().email("Invalid email").required("Email is required"),
 	password: yup
 		.string()
 		.required("Password is required")
 		.min(8, "Password must be at least 8 characters"),
+	passwordConfirm: yup
+		.string()
+		.required("Password confirmation is required")
+		.oneOf([yup.ref("password")], "Passwords must match"),
+	identityCardType: yup.number().required("Identity card type is required"),
+	identityCard: yup.string().required("Identity card is required"),
+	roleId: yup.number().required("Role is required"),
 });
 
-const LoginForm = () => {
+const SignupForm = () => {
 	const {
 		handleSubmit,
 		register,
-		setFocus,
-		trigger,
-		watch,
 		formState: { errors },
 	} = useForm({ resolver: yupResolver(schema), mode: "onChange" });
-	const email = watch("email");
 	const navigate = useNavigate();
 
 	const [submitting, setSubmitting] = useState(false);
 	const [status, setStatus] = useState({});
 
+	const identityCardTypes = [
+		{ value: 1, label: "Identity card" },
+		{ value: 2, label: "Passport" },
+		{ value: 3, label: "Driving license" },
+		{ value: 4, label: "Other" },
+	];
+
+	const roles = [
+		{ value: 2, label: "Driver" },
+		{ value: 3, label: "Parking Lot Owner" },
+		{ value: 4, label: "Employee" },
+	];
+
 	const onSubmit = async (data) => {
 		console.log(data);
 		setSubmitting(true);
-		const [err, res] = await until(API.post("/users/login", data));
+		const [err, res] = await until(API.post("/users/signup", data));
 		setSubmitting(false);
 		if (err) return setStatus({ error: err.response.data?.message });
 		setStatus({ success: res.data?.message });
-		localStorage.setItem("loggedIn", true);
-		navigate("/home");
-	};
-
-	const forgotPassword = async () => {
-		// Email is required to reset password
-		if (!email) {
-			setFocus("email");
-			trigger("email");
-			return;
-		}
-		setSubmitting(true);
-		const [err, res] = await until(API.post("/users/password", { email }));
-		setSubmitting(false);
-		if (err) return setStatus({ error: err.response.data?.message });
-		setStatus({ success: res.data?.message });
+		navigate("/users/login");
 	};
 
 	const formProps = (name) => {
@@ -89,22 +92,39 @@ const LoginForm = () => {
 			>
 				{status.error || status.success}
 			</Typography>
-			<Typography variant="h5" align="center">
-				Login
+			<Typography align="center" variant="h5">
+				Signup
 			</Typography>
-			<TextField label="Email *" {...formProps("email")} autoFocus />
+			<TextField label="Name *" {...formProps("name")} autoFocus />
+			<TextField label="Email *" {...formProps("email")} />
 			<FormPassword label="Password *" {...formProps("password")} />
-			<FormCheckbox name="remember" label="Remember me" defaultChecked />
-			<Typography variant="body2" color="textSecondary" align="center">
-				<Link
-					style={{ textDecoration: "none", cursor: "pointer" }}
-					onClick={forgotPassword}
-				>
-					Forgot Password?
-				</Link>
-			</Typography>
+			<FormPassword
+				label="Confirm password *"
+				{...formProps("passwordConfirm")}
+			/>
+			<FormGroup sx={{ justifyContent: "space-between", display: "flex" }} row>
+				<FormSelect
+					label="Identity card type"
+					defaultValue={1}
+					options={identityCardTypes}
+					{...formProps("identityCardType")}
+					style={{ width: "40%" }}
+				/>
+				<TextField
+					label="Identity card *"
+					{...formProps("identityCard")}
+					style={{ width: "59%" }}
+				/>
+			</FormGroup>
+			<TextField label="Phone" {...formProps("phone")} />
+			<FormSelect
+				label="Role"
+				defaultValue={2}
+				options={roles}
+				{...formProps("roleId")}
+			/>
 			<Button type="submit" variant="contained" fullWidth>
-				Login
+				Signup
 			</Button>
 			<Typography
 				align="center"
@@ -112,16 +132,16 @@ const LoginForm = () => {
 				variant="body2"
 				style={{ marginTop: "1rem" }}
 			>
-				Not a member?{" "}
+				Already have an account?{" "}
 				<Link
 					style={{ textDecoration: "none", cursor: "pointer" }}
-					onClick={() => navigate("/users/signup")}
+					onClick={() => navigate("/users/login")}
 				>
-					Sign Up
+					Login
 				</Link>
 			</Typography>
 		</Paper>
 	);
 };
 
-export default LoginForm;
+export default SignupForm;
