@@ -1,4 +1,3 @@
-import { MyLocation } from "@mui/icons-material";
 import { useState } from "react";
 import {
 	MapContainer,
@@ -22,11 +21,7 @@ const Map = () => {
 				attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
-			{/* // create a marker using mui icon */}
-			<Marker
-				icon={<MyLocation color="primary" style={{ margin: "-2px" }} />}
-				position={position}
-			>
+			<Marker position={position}>
 				<Popup>
 					A pretty CSS3 popup. <br /> Easily customizable.
 				</Popup>
