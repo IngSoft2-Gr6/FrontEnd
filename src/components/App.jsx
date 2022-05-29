@@ -8,11 +8,11 @@ import {
 import Nav from "./Nav";
 import VerifyAccount from "./VerifyAccount";
 
-import { Home, Login, Signup } from "../views";
+import { Home, Login, Profile, Signup } from "../views";
 import { ThemeProvider, Switch } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
 import { getTheme, toggleTheme } from "../theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logout from "./Logout";
 
 const App = () => {
@@ -20,15 +20,13 @@ const App = () => {
 
 	const [theme, setTheme] = useState(getTheme());
 
+	useEffect(() => {
+		document.body.style.backgroundColor = theme.palette.background.default;
+	}, [theme]);
+
 	return (
 		<ThemeProvider theme={theme}>
-			<div
-				style={{
-					backgroundColor: getTheme().palette.background.paper,
-					height: "100vh",
-					width: "100vw",
-				}}
-			>
+			<div style={{ height: "100vh", width: "100vw" }}>
 				<Router>
 					<Nav paths={paths} />
 					<Routes>
@@ -44,6 +42,7 @@ const App = () => {
 								<Route path="login" element={<Login />} />
 								<Route path="signup" element={<Signup />} />
 								<Route path="logout" element={<Logout />} />
+								<Route path="profile" element={<Profile />} />
 								<Route path="verify/account" element={<VerifyAccount />} />
 							</Route>
 						</Route>

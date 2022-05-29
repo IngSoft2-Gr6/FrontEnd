@@ -11,7 +11,11 @@ const Nav = (props) => {
 
 	useEffect(() => {
 		if (loggedIn) {
-			setTabs([...props.paths, { label: "Logout", href: "/users/logout" }]);
+			setTabs([
+				...props.paths,
+				{ label: "Profile", href: "/users/profile" },
+				{ label: "Logout", href: "/users/logout" },
+			]);
 		} else {
 			setTabs([
 				...props.paths,
