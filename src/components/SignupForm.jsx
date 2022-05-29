@@ -116,7 +116,7 @@ const SignupForm = () => {
 					style={{ width: "59%" }}
 				/>
 			</FormGroup>
-			<TextField label="Phone *" {...formProps("phone")} />
+			<TextField label="Phone" {...formProps("phone")} />
 			<FormSelect
 				label="Role"
 				defaultValue={2}
