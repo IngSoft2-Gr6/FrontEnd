@@ -5,12 +5,12 @@ import { Link, useLocation } from "react-router-dom";
 const Nav = (props) => {
 	const location = useLocation();
 
+	const loggedIn = !!localStorage.getItem("loggedIn");
 	const [currTab, setCurrTab] = useState(0);
-	const [tabs, setTabs] = useState(props.paths);
+	const [tabs, setTabs] = useState([]);
 
-	// detect when the path changes and update the current tab
 	useEffect(() => {
-		if (localStorage.getItem("loggedIn")) {
+		if (loggedIn) {
 			setTabs([...props.paths, { label: "Logout", href: "/users/logout" }]);
 		} else {
 			setTabs([
@@ -19,12 +19,15 @@ const Nav = (props) => {
 				{ label: "Signup", href: "/users/signup" },
 			]);
 		}
+	}, [props.paths, loggedIn]);
+
+	// detect when the path changes and update the current tab
+	useEffect(() => {
 		const currIndexTab = tabs.findIndex(
-			({ href }) => href === window.location.pathname
+			({ href }) => href === location.pathname
 		);
 		setCurrTab(currIndexTab >= 0 ? currIndexTab : 0);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [location, props.paths]);
+	}, [location, tabs]);
 
 	return (
 		<Box p={2}>
