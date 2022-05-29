@@ -8,6 +8,7 @@ import {
 	ListItemText,
 	Typography,
 } from "@mui/material";
+import { until } from "../helpers/until";
 
 const Profile = () => {
 	const [user, setUser] = useState({});
@@ -17,37 +18,23 @@ const Profile = () => {
 	// get user data from API when component mounts
 	useEffect(() => {
 		if (localStorage.getItem("loggedIn")) {
-			API.get("/users/profile")
-				.then((res) => {
-					const {
-						name,
-						email,
-						phone,
-						photo,
-						verified,
-						identityCard,
-						identityCardType,
-						roles,
-					} = res.data.data;
-					const roleNames = roles.map((role) => role.name);
-					setUser({
-						Name: name,
-						Email: email,
-						Phone: phone,
-						Photo: photo,
-						"Idendity Card": identityCard,
-						"Idendity Card Type": identityCardType,
-						Roles: roleNames,
-					});
-					setVerified(verified);
-				})
-				.catch((err) => {
-					// console.log(err);
-					setError(err.response.data?.message || "Something went wrong");
+			(async () => {
+				const [err, res] = await until(API.get("/users/profile"));
+				if (err) return setError(err.response.data.message);
+				const roles = res.data.data.roles.map((role) => role.name);
+				setUser({
+					Name: res.data.data.name,
+					Email: res.data.data.email,
+					Roles: roles,
+					Phone: res.data.data.phone,
+					Photo: res.data.data.photo,
+					"Identity Card Type": res.data.data.identityCardType,
+					"Identity Card Number": res.data.data.identityCard,
 				});
-		} else {
-			setError("You are not logged in");
+				setVerified(res.data.data.verified);
+			})();
 		}
+		console.log("You are not logged in");
 	}, []);
 
 	return (
@@ -75,12 +62,7 @@ const Profile = () => {
 				<Typography variant="body2" color="textPrimary">
 					{error}
 				</Typography>
-				<List
-					style={{
-						// set background color
-						backgroundColor: "background.paper",
-					}}
-				>
+				<List style={{ backgroundColor: "background.paper" }}>
 					{Object.keys(user).map((key) =>
 						// if key is an array, render it joined by commas
 						Array.isArray(user[key]) ? (
