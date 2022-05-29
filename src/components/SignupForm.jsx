@@ -38,10 +38,7 @@ const SignupForm = () => {
 		handleSubmit,
 		register,
 		formState: { errors },
-	} = useForm({
-		resolver: yupResolver(schema),
-		mode: "onChange",
-	});
+	} = useForm({ resolver: yupResolver(schema), mode: "onChange" });
 	const navigate = useNavigate();
 
 	const [submitting, setSubmitting] = useState(false);

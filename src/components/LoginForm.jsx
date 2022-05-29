@@ -32,10 +32,7 @@ const LoginForm = () => {
 		trigger,
 		watch,
 		formState: { errors },
-	} = useForm({
-		resolver: yupResolver(schema),
-		mode: "onChange",
-	});
+	} = useForm({ resolver: yupResolver(schema), mode: "onChange" });
 	const email = watch("email");
 	const navigate = useNavigate();
 
