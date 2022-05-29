@@ -1,17 +1,21 @@
-import { LinearProgress, Link, Paper, Typography } from "@mui/material";
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+	Button,
+	FormGroup,
+	LinearProgress,
+	Link,
+	Paper,
+	TextField,
+	Typography,
+} from "@mui/material";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import * as yup from "yup";
 import API from "../config/axios";
-import {
-	Form,
-	FormButton,
-	FormGroup,
-	FormInput,
-	FormPassword,
-	FormSelect,
-} from "./Form";
+import { until } from "../helpers/until";
+import { FormPassword, FormSelect } from "./Form";
 
 const schema = yup.object().shape({
 	name: yup.string().required("Name is required"),
@@ -30,11 +34,18 @@ const schema = yup.object().shape({
 });
 
 const SignupForm = () => {
+	const {
+		handleSubmit,
+		register,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(schema),
+		mode: "onChange",
+	});
 	const navigate = useNavigate();
 
 	const [submitting, setSubmitting] = useState(false);
-	const [error, setError] = useState("");
-	const [success, setSuccess] = useState("");
+	const [status, setStatus] = useState({});
 
 	const identityCardTypes = [
 		{ value: 1, label: "Identity card" },
@@ -49,98 +60,89 @@ const SignupForm = () => {
 		{ value: 4, label: "Employee" },
 	];
 
-	const handleSubmit = (data) => {
+	const onSubmit = async (data) => {
 		console.log(data);
 		setSubmitting(true);
-		API.post("/users/signup", data)
-			.then((res) => {
-				console.log(res);
-				setSubmitting(false);
-				setSuccess(res.data?.message || "Signup successful");
-				setError("");
-				navigate("/users/login");
-			})
-			.catch((err) => {
-				console.log(err);
-				setSubmitting(false);
-				setError(err.response.data?.message || "Something went wrong");
-				setSuccess("");
-			});
+		const [err, res] = await until(API.post("/users/signup", data));
+		setSubmitting(false);
+		if (err) return setStatus({ error: err.response.data?.message });
+		setStatus({ success: res.data?.message });
+		navigate("/users/login");
+	};
+
+	const formProps = (name) => {
+		return {
+			error: !!errors[name],
+			helperText: errors[name]?.message,
+			fullWidth: true,
+			margin: "normal",
+			variant: "outlined",
+			...register(name),
+		};
 	};
 
 	return (
-		<Paper elevation={24} style={{ padding: "1rem", borderRadius: "1rem" }}>
+		<Paper
+			component="form"
+			elevation={24}
+			style={{ padding: "1rem", borderRadius: "1rem" }}
+			onSubmit={handleSubmit(onSubmit)}
+		>
 			{submitting && <LinearProgress />}
-			{error && (
-				<Typography variant="body2" color="error.main">
-					{error}
-				</Typography>
-			)}
-			{success && (
-				<Typography variant="body2" color="success.main">
-					{success}
-				</Typography>
-			)}
-			<Form title="Signup" schema={schema} onSubmit={handleSubmit}>
-				<Typography
-					align="center"
-					variant="h4"
-					gutterBottom
-					style={{ fontWeight: "bold" }}
-				>
-					Signup
-				</Typography>
-				<FormInput label="Name" name="name" required />
-				<FormInput label="Email" name="email" required />
-				<FormPassword label="Password" name="password" required />
-				<FormPassword
-					label="Confirm password"
-					name="passwordConfirm"
-					required
-				/>
-				<FormGroup
-					sx={{ justifyContent: "space-between", display: "flex" }}
-					row
-				>
-					<FormSelect
-						label="Identity card type"
-						name="identityCardType"
-						defaultValue={1}
-						options={identityCardTypes}
-						required
-						style={{ width: "40%" }}
-					/>
-					<FormInput
-						label="Identity card"
-						name="identityCard"
-						required
-						style={{ width: "59%" }}
-					/>
-				</FormGroup>
-				<FormInput label="Phone number" name="phone" />
+			<Typography
+				variant="h8"
+				color={status.error ? "error.main" : "success.main"}
+			>
+				{status.error || status.success}
+			</Typography>
+			<Typography align="center" variant="h5">
+				Signup
+			</Typography>
+			<TextField label="Name *" {...formProps("name")} autoFocus />
+			<TextField label="Email *" {...formProps("email")} />
+			<FormPassword label="Password *" {...formProps("password")} />
+			<FormPassword
+				label="Confirm password *"
+				{...formProps("passwordConfirm")}
+			/>
+			<FormGroup sx={{ justifyContent: "space-between", display: "flex" }} row>
 				<FormSelect
-					label="Role"
-					name="roleId"
-					defaultValue={2}
-					options={roles}
-					required
+					label="Identity card type"
+					defaultValue={1}
+					options={identityCardTypes}
+					{...formProps("identityCardType")}
+					style={{ width: "40%" }}
 				/>
-				<FormButton label="Signup" />
-				<Typography
-					align="center"
-					color="textSecondary"
-					variant="body2"
-					style={{ marginTop: "1rem" }}
+				<TextField
+					label="Identity card *"
+					{...formProps("identityCard")}
+					style={{ width: "59%" }}
+				/>
+			</FormGroup>
+			<TextField label="Phone *" {...formProps("phone")} />
+			<FormSelect
+				label="Role"
+				defaultValue={2}
+				options={roles}
+				{...formProps("roleId")}
+			/>
+			<Button type="submit" variant="contained" fullWidth>
+				Signup
+			</Button>
+			<Typography
+				align="center"
+				color="textSecondary"
+				variant="body2"
+				style={{ marginTop: "1rem" }}
+			>
+				Already have an account?{" "}
+				<Link
+					style={{ textDecoration: "none", cursor: "pointer" }}
+					onClick={() => navigate("/users/login")}
 				>
-					Already have an account?{" "}
-					<Link
-						style={{ textDecoration: "none", cursor: "pointer" }}
-						onClick={() => navigate("/users/login")}
-					>
-						Login
-					</Link>
-				</Typography>
-			</Form>
+					Login
+				</Link>
+			</Typography>
 		</Paper>
 	);
 };

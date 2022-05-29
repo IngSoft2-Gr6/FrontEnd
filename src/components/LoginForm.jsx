@@ -1,16 +1,20 @@
-import { LinearProgress, Link, Paper, Typography } from "@mui/material";
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+	Button,
+	LinearProgress,
+	Link,
+	Paper,
+	TextField,
+	Typography,
+} from "@mui/material";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { FormCheckbox, FormPassword } from "./Form";
 
 import * as yup from "yup";
 import API from "../config/axios";
-import {
-	Form,
-	FormButton,
-	FormCheckbox,
-	FormInput,
-	FormPassword,
-} from "./Form";
+import { until } from "../helpers/until";
 
 const schema = yup.object().shape({
 	email: yup.string().email("Invalid email").required("Email is required"),
@@ -21,109 +25,104 @@ const schema = yup.object().shape({
 });
 
 const LoginForm = () => {
-	const [submitting, setSubmitting] = useState(false);
-	const [error, setError] = useState("");
-	const [success, setSuccess] = useState("");
-	const [email, setEmail] = useState("");
-
+	const {
+		handleSubmit,
+		register,
+		setFocus,
+		trigger,
+		watch,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(schema),
+		mode: "onChange",
+	});
+	const email = watch("email");
 	const navigate = useNavigate();
 
-	const onSubmit = (data) => {
+	const [submitting, setSubmitting] = useState(false);
+	const [status, setStatus] = useState({});
+
+	const onSubmit = async (data) => {
 		console.log(data);
 		setSubmitting(true);
-		API.post("/users/login", data)
-			.then((res) => {
-				console.log(res);
-				setSubmitting(false);
-				setSuccess(res.data?.message || "Login successful");
-				setError("");
-				localStorage.setItem("loggedIn", true);
-				navigate("/home");
-			})
-			.catch((err) => {
-				console.log("Error caught: ", err);
-				setSubmitting(false);
-				setError(err.response.data?.message || "Something went wrong");
-				setSuccess("");
-			});
+		const [err, res] = await until(API.post("/users/login", data));
+		setSubmitting(false);
+		if (err) return setStatus({ error: err.response.data?.message });
+		setStatus({ success: res.data?.message });
+		localStorage.setItem("loggedIn", true);
+		navigate("/home");
 	};
 
-	const forgotPassword = () => {
-		// TODO: forgot password functionality
-		console.log("forgot password");
-		console.log("Curr data: ", { email });
+	const forgotPassword = async () => {
+		// Email is required to reset password
+		if (!email) {
+			setFocus("email");
+			trigger("email");
+			return;
+		}
 		setSubmitting(true);
-		API.post("/users/password", { email })
-			.then((res) => {
-				console.log(res);
-				setSubmitting(false);
-				setSuccess(res.data?.message || "Password reset email sent");
-				setError("");
-			})
-			.catch((err) => {
-				console.log("Error caught: ", err);
-				setSubmitting(false);
-				setError(err.response.data?.message || "Something went wrong");
-				setSuccess("");
-			});
+		const [err, res] = await until(API.post("/users/password", { email }));
+		setSubmitting(false);
+		if (err) return setStatus({ error: err.response.data?.message });
+		setStatus({ success: res.data?.message });
+	};
+
+	const formProps = (name) => {
+		return {
+			error: !!errors[name],
+			helperText: errors[name]?.message,
+			fullWidth: true,
+			margin: "normal",
+			variant: "outlined",
+			...register(name),
+		};
 	};
 
 	return (
-		<Paper elevation={24} style={{ padding: "1rem", borderRadius: "1rem" }}>
+		<Paper
+			component="form"
+			elevation={24}
+			style={{ padding: "1rem", borderRadius: "1rem" }}
+			onSubmit={handleSubmit(onSubmit)}
+		>
 			{submitting && <LinearProgress />}
-			{error && (
-				<Typography variant="body2" color="error.main">
-					{error}
-				</Typography>
-			)}
-			{success && (
-				<Typography variant="body2" color="success.main">
-					{success}
-				</Typography>
-			)}
-			<Form title="Login" schema={schema} onSubmit={onSubmit}>
-				<Typography
-					align="center"
-					style={{ fontWeight: "bold" }}
-					variant="h4"
-					gutterBottom
+			<Typography
+				variant="h8"
+				color={status.error ? "error.main" : "success.main"}
+			>
+				{status.error || status.success}
+			</Typography>
+			<Typography variant="h5" align="center">
+				Login
+			</Typography>
+			<TextField label="Email *" {...formProps("email")} autoFocus />
+			<FormPassword label="Password *" {...formProps("password")} />
+			<FormCheckbox name="remember" label="Remember me" defaultChecked />
+			<Typography variant="body2" color="textSecondary" align="center">
+				<Link
+					style={{ textDecoration: "none", cursor: "pointer" }}
+					onClick={forgotPassword}
 				>
-					Login
-				</Typography>
-				<FormInput
-					name="email"
-					label="Email"
-					onChange={(e) => {
-						console.log("email changed: ", e.target.value);
-						setEmail(e.target.value);
-					}}
-				/>
-				<FormPassword name="password" label="Password" />
-				<FormCheckbox name="remember" label="Remember me" defaultChecked />
-				<Typography variant="body2" color="textSecondary" align="center">
-					<Link
-						style={{ textDecoration: "none", cursor: "pointer" }}
-						onClick={forgotPassword}
-					>
-						Forgot Password?
-					</Link>
-				</Typography>
-				<FormButton label="Login" />
-				<Typography
-					align="center"
-					color="textSecondary"
-					variant="body2"
-					style={{ marginTop: "1rem" }}
+					Forgot Password?
+				</Link>
+			</Typography>
+			<Button type="submit" variant="contained" fullWidth>
+				Login
+			</Button>
+			<Typography
+				align="center"
+				color="textSecondary"
+				variant="body2"
+				style={{ marginTop: "1rem" }}
+			>
+				Not a member?{" "}
+				<Link
+					style={{ textDecoration: "none", cursor: "pointer" }}
+					onClick={() => navigate("/users/signup")}
 				>
-					Not a member?{" "}
-					<Link
-						style={{ textDecoration: "none", cursor: "pointer" }}
-						onClick={() => navigate("/users/signup")}
-					>
-						Sign Up
-					</Link>
-				</Typography>
-			</Form>
+					Sign Up
+				</Link>
+			</Typography>
 		</Paper>
 	);
 };
