@@ -16,6 +16,10 @@ const VerifyAccount = () => {
 		console.log(res.data?.message);
 	})();
 
+	// redirect to home page if logged in
+	if (localStorage.getItem("loggedIn")) {
+		return <Navigate to="/home" />;
+	}
 	return <Navigate to="/users/login" />;
 };
 
