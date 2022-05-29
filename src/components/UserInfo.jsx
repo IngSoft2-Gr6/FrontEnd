@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { until } from "../helpers/until";
 
-const Profile = () => {
+const UserInfo = () => {
 	const [user, setUser] = useState({});
 	const [verified, setVerified] = useState(false);
 	const [error, setError] = useState("");
@@ -18,7 +18,8 @@ const Profile = () => {
 	// get user data from API when component mounts
 	useEffect(() => {
 		const user = localStorage.getItem("user");
-		if (user) return setUser(JSON.parse(user));
+		if (user) setUser(JSON.parse(user));
+		if (verified) return;
 		if (!localStorage.getItem("loggedIn")) return;
 		(async () => {
 			const [err, res] = await until(API.get("/users/profile"));
@@ -39,7 +40,7 @@ const Profile = () => {
 			);
 			setVerified(res.data.data.verified);
 		})();
-	}, []);
+	}, [verified]);
 
 	return (
 		<Container maxWidth="sm">
@@ -98,4 +99,4 @@ const Profile = () => {
 	);
 };
 
-export default Profile;
+export default UserInfo;
