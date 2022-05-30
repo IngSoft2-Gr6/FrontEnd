@@ -12,7 +12,7 @@ import { ThemeProvider, Switch } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
 import { getTheme, toggleTheme } from "./theme";
 import { useEffect, useState } from "react";
-import { VerifyAccount, Logout } from "./auth";
+import { VerifyAccount, Logout, PasswordReset } from "./auth";
 
 const App = () => {
 	const paths = [{ label: "Home", href: "/home" }];
@@ -43,6 +43,7 @@ const App = () => {
 								<Route path="logout" element={<Logout />} />
 								<Route path="profile" element={<Profile />} />
 								<Route path="verify/account" element={<VerifyAccount />} />
+								<Route path="password/reset" element={<PasswordReset />} />
 							</Route>
 						</Route>
 						<Route path="*" element={<Navigate to="/home" />} />
