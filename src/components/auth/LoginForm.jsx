@@ -1,4 +1,3 @@
-import { yupResolver } from "@hookform/resolvers/yup";
 import {
 	Button,
 	LinearProgress,
@@ -7,25 +6,19 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { FormCheckbox, FormPassword } from "../form";
-
 import API from "../../config/axios";
-import { until } from "../../helpers/until";
-
+import FormHooks from "../../hooks/formHooks";
+import { FormCheckbox, FormPassword } from "../form";
 import { loginSchema } from "../../schemas/auth";
+import { until } from "../../helpers/until";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const LoginForm = () => {
-	const {
-		handleSubmit,
-		register,
-		setFocus,
-		trigger,
-		watch,
-		formState: { errors },
-	} = useForm({ resolver: yupResolver(loginSchema), mode: "onChange" });
+	const { formProps, handleSubmit, setFocus, trigger, watch } = FormHooks(
+		loginSchema,
+		"onChange"
+	);
 	const email = watch("email");
 	const navigate = useNavigate();
 
@@ -55,17 +48,6 @@ const LoginForm = () => {
 		setSubmitting(false);
 		if (err) return setStatus({ error: err.response.data?.message });
 		setStatus({ success: res.data?.message });
-	};
-
-	const formProps = (name) => {
-		return {
-			error: !!errors[name],
-			helperText: errors[name]?.message,
-			fullWidth: true,
-			margin: "normal",
-			variant: "outlined",
-			...register(name),
-		};
 	};
 
 	return (

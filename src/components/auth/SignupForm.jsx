@@ -1,4 +1,3 @@
-import { yupResolver } from "@hookform/resolvers/yup";
 import {
 	Button,
 	FormGroup,
@@ -8,21 +7,16 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-
 import API from "../../config/axios";
-import { until } from "../../helpers/until";
+import FormHooks from "../../hooks/formHooks";
 import { FormPassword, FormSelect } from "../form";
 import { signupSchema } from "../../schemas/auth";
+import { until } from "../../helpers/until";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const SignupForm = () => {
-	const {
-		handleSubmit,
-		register,
-		formState: { errors },
-	} = useForm({ resolver: yupResolver(signupSchema), mode: "onChange" });
+	const { formProps, handleSubmit } = FormHooks(signupSchema, "onChange");
 	const navigate = useNavigate();
 
 	const [submitting, setSubmitting] = useState(false);
@@ -49,17 +43,6 @@ const SignupForm = () => {
 		if (err) return setStatus({ error: err.response.data?.message });
 		setStatus({ success: res.data?.message });
 		navigate("/users/login");
-	};
-
-	const formProps = (name) => {
-		return {
-			error: !!errors[name],
-			helperText: errors[name]?.message,
-			fullWidth: true,
-			margin: "normal",
-			variant: "outlined",
-			...register(name),
-		};
 	};
 
 	return (
