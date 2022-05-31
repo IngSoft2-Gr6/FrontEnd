@@ -32,3 +32,8 @@ export const signupSchema = yup.object().shape({
 	identityCard,
 	roleId,
 });
+
+export const passwordResetSchema = yup.object().shape({
+	password,
+	confirmPassword,
+});
