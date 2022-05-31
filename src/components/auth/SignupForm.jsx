@@ -12,33 +12,17 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import * as yup from "yup";
 import API from "../../config/axios";
 import { until } from "../../helpers/until";
 import { FormPassword, FormSelect } from "../form";
-
-const schema = yup.object().shape({
-	name: yup.string().required("Name is required"),
-	email: yup.string().email("Invalid email").required("Email is required"),
-	password: yup
-		.string()
-		.required("Password is required")
-		.min(8, "Password must be at least 8 characters"),
-	passwordConfirm: yup
-		.string()
-		.required("Password confirmation is required")
-		.oneOf([yup.ref("password")], "Passwords must match"),
-	identityCardType: yup.number().required("Identity card type is required"),
-	identityCard: yup.string().required("Identity card is required"),
-	roleId: yup.number().required("Role is required"),
-});
+import { signupSchema } from "../../schemas/auth";
 
 const SignupForm = () => {
 	const {
 		handleSubmit,
 		register,
 		formState: { errors },
-	} = useForm({ resolver: yupResolver(schema), mode: "onChange" });
+	} = useForm({ resolver: yupResolver(signupSchema), mode: "onChange" });
 	const navigate = useNavigate();
 
 	const [submitting, setSubmitting] = useState(false);
@@ -100,7 +84,7 @@ const SignupForm = () => {
 			<FormPassword label="Password *" {...formProps("password")} />
 			<FormPassword
 				label="Confirm password *"
-				{...formProps("passwordConfirm")}
+				{...formProps("confirmPassword")}
 			/>
 			<FormGroup sx={{ justifyContent: "space-between", display: "flex" }} row>
 				<FormSelect

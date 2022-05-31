@@ -12,17 +12,10 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FormCheckbox, FormPassword } from "../form";
 
-import * as yup from "yup";
 import API from "../../config/axios";
 import { until } from "../../helpers/until";
 
-const schema = yup.object().shape({
-	email: yup.string().email("Invalid email").required("Email is required"),
-	password: yup
-		.string()
-		.required("Password is required")
-		.min(8, "Password must be at least 8 characters"),
-});
+import { loginSchema } from "../../schemas/auth";
 
 const LoginForm = () => {
 	const {
@@ -32,7 +25,7 @@ const LoginForm = () => {
 		trigger,
 		watch,
 		formState: { errors },
-	} = useForm({ resolver: yupResolver(schema), mode: "onChange" });
+	} = useForm({ resolver: yupResolver(loginSchema), mode: "onChange" });
 	const email = watch("email");
 	const navigate = useNavigate();
 
