@@ -12,7 +12,8 @@ import { FormCheckbox, FormPassword } from "../form";
 import { loginSchema } from "../../schemas/auth";
 import { until } from "../../helpers/until";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../../context/UserContext";
 
 const LoginForm = () => {
 	const { formProps, handleSubmit, setFocus, trigger, watch } = FormHooks(
@@ -22,17 +23,20 @@ const LoginForm = () => {
 	const email = watch("email");
 	const navigate = useNavigate();
 
+	// get user context
+	const { getUser } = useContext(UserContext);
+
 	const [submitting, setSubmitting] = useState(false);
 	const [status, setStatus] = useState({});
 
 	const onSubmit = async (data) => {
-		console.log(data);
 		setSubmitting(true);
 		const [err, res] = await until(API.post("/users/login", data));
 		setSubmitting(false);
 		if (err) return setStatus({ error: err.response.data?.message });
 		setStatus({ success: res.data?.message });
 		localStorage.setItem("loggedIn", true);
+		await getUser();
 		navigate("/home");
 	};
 

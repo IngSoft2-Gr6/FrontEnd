@@ -5,18 +5,17 @@ import {
 	Routes,
 } from "react-router-dom";
 
-import Nav from "./layout/Nav";
+import Menu from "./layout/Menu";
 
 import { Home, Login, Profile, Signup } from "../views";
-import { ThemeProvider, Switch } from "@mui/material";
-import { DarkMode, LightMode } from "@mui/icons-material";
-import { getTheme, toggleTheme } from "./theme";
+import { Switch, ThemeProvider } from "@mui/material";
 import { useEffect, useState } from "react";
-import { VerifyAccount, Logout, PasswordReset } from "./auth";
+import { VerifyAccount, PasswordReset } from "./auth";
+import { UserProvider } from "../context/UserContext";
+import { getTheme, toggleTheme } from "./theme";
+import { DarkMode, LightMode } from "@mui/icons-material";
 
 const App = () => {
-	const paths = [{ label: "Home", href: "/home" }];
-
 	const [theme, setTheme] = useState(getTheme());
 
 	useEffect(() => {
@@ -25,41 +24,49 @@ const App = () => {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<div style={{ height: "100vh", width: "100vw" }}>
-				<Router>
-					<Nav paths={paths} />
-					<Routes>
-						<Route exact path="/" element={<Navigate to="/home" />} />
-						<Route
-							exact
-							path="/users"
-							element={<Navigate to="/users/login" />}
-						/>
-						<Route path="/">
-							<Route path="home" element={<Home />} />
-							<Route path="users">
-								<Route path="login" element={<Login />} />
-								<Route path="signup" element={<Signup />} />
-								<Route path="logout" element={<Logout />} />
-								<Route path="profile" element={<Profile />} />
-								<Route path="verify/account" element={<VerifyAccount />} />
-								<Route path="password/reset" element={<PasswordReset />} />
+			<UserProvider>
+				<div style={{ height: "100vh", width: "100vw" }}>
+					<Router>
+						<Menu />
+						<Routes>
+							<Route exact path="/" element={<Navigate to="/home" />} />
+							<Route
+								exact
+								path="/users"
+								element={<Navigate to="/users/login" />}
+							/>
+							<Route path="/">
+								<Route path="home" element={<Home />} />
+								<Route path="users">
+									<Route path="login" element={<Login />} />
+									<Route path="signup" element={<Signup />} />
+									<Route path="profile" element={<Profile />} />
+									<Route path="verify/account" element={<VerifyAccount />} />
+									<Route path="password/reset" element={<PasswordReset />} />
+								</Route>
 							</Route>
-						</Route>
-						<Route path="*" element={<Navigate to="/home" />} />
-					</Routes>
-				</Router>
-				<div style={{ position: "fixed", bottom: 0, width: "100%" }}>
+							<Route path="*" element={<Navigate to="/home" />} />
+						</Routes>
+					</Router>
+				</div>
+				<div
+					style={{
+						position: "fixed",
+						bottom: 0,
+						width: "100%",
+						zIndex: "1000",
+					}}
+				>
 					<Switch
 						onChange={() => setTheme(toggleTheme(theme))}
-						checked={theme.palette.mode === "light"}
+						checked={theme.palette.mode === "dark"}
 						icon={<LightMode color="primary" style={{ margin: "-2px" }} />}
 						checkedIcon={
 							<DarkMode color="primary" style={{ margin: "-2px" }} />
 						}
 					/>
 				</div>
-			</div>
+			</UserProvider>
 		</ThemeProvider>
 	);
 };
