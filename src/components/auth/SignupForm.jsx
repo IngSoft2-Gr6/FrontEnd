@@ -42,7 +42,7 @@ const SignupForm = () => {
 		setSubmitting(false);
 		if (err) return setStatus({ error: err.response.data?.message });
 		setStatus({ success: res.data?.message });
-		navigate("/users/login");
+		navigate("#login");
 	};
 
 	return (
@@ -102,7 +102,7 @@ const SignupForm = () => {
 				Already have an account?{" "}
 				<Link
 					style={{ textDecoration: "none", cursor: "pointer" }}
-					onClick={() => navigate("/users/login")}
+					onClick={() => navigate("#login")}
 				>
 					Login
 				</Link>

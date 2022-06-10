@@ -7,7 +7,7 @@ import {
 
 import Menu from "./layout/Menu";
 
-import { Home, Login, Profile, Signup } from "../views";
+import { Home, Profile } from "../views";
 import { Switch, ThemeProvider } from "@mui/material";
 import { useEffect, useState } from "react";
 import { VerifyAccount, PasswordReset } from "./auth";
@@ -30,16 +30,9 @@ const App = () => {
 						<Menu />
 						<Routes>
 							<Route exact path="/" element={<Navigate to="/home" />} />
-							<Route
-								exact
-								path="/users"
-								element={<Navigate to="/users/login" />}
-							/>
 							<Route path="/">
 								<Route path="home" element={<Home />} />
 								<Route path="users">
-									<Route path="login" element={<Login />} />
-									<Route path="signup" element={<Signup />} />
 									<Route path="profile" element={<Profile />} />
 									<Route path="verify/account" element={<VerifyAccount />} />
 									<Route path="password/reset" element={<PasswordReset />} />
