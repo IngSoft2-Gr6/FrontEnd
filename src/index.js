@@ -1,31 +1,15 @@
 import "./index.css";
-import "antd/dist/antd.min.css";
 
 import React from "react";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
-import LoginView from "./views/LoginView";
-import SignupView from "./views/SignupView";
 
-import {
-	BrowserRouter as Router,
-	Route,
-	Routes,
-	Navigate,
-} from "react-router-dom";
+import App from "./components/App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
-		<Router>
-			<Routes>
-				<Route path="users">
-					<Route path="signup" element={<SignupView />} />
-					<Route path="login" element={<LoginView />} />
-				</Route>
-				<Route path="*" element={<Navigate replace to="/users/login" />} />
-			</Routes>
-		</Router>
+		<App />
 	</React.StrictMode>
 );
 
