@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { styled, alpha } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
 import {Modal} from "@mui/material";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -18,7 +21,41 @@ import { UserContext } from "../../context/UserContext";
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import { AccountCircle, Logout, Map } from "@mui/icons-material";
 import { LoginForm, SignupForm } from "../auth";
-import {Profile} from '../../views';
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: theme.spacing(1),
+  width: 'auto',
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '20ch',
+    '&:focus': {
+      width: '25ch',
+    }
+  },
+}));
 
 const pages = ['login','signup'];
 const settings = ['profile', 'Logout'];
@@ -64,7 +101,7 @@ const ResponsiveAppBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <DirectionsCarIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}/>
+          <DirectionsCarIcon sx={{mr: 1 ,display: { xs: 'none', md: 'flex' }}} />
           <Typography
             variant="h6"
             noWrap
@@ -84,15 +121,92 @@ const ResponsiveAppBar = () => {
             SPARKING
           </Typography>
 
+          <DirectionsCarIcon sx={{mr: 1 , display: { xs: 'flex', md: 'none' }}} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href="/home"
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            SPARKING
+          </Typography>
 
+          <Search sx={{display: {md: 'flex' }}}>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
 
           {user ? (
               <>
-              <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}></Box>
+                <Box sx={{ flexGrow: 0, ml:2}}>
+                  <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} >
+                      <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: '45px' }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    <MenuItem key="profile" onClick={() => navigate("/users/profile")}>
+                      <AccountCircle />
+                      <Typography textAlign="center">Profile</Typography>
+                    </MenuItem>
+                    <MenuItem key="Logout" onClick={() => logout() && navigate("/home")}>
+                      <Logout />
+                      <Typography textAlign="center">Logout</Typography>
+                    </MenuItem>
+                  </Menu>
+                </Box>
               </>
             ) : (
               <>
-                <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+                  <Button
+                    key='login'
+                    onClick={() => navigate("#login")}
+                    sx={{ my: 2, ml:2, color: 'white', display: 'block' }}
+                  >
+                    login
+                  </Button>
+
+                  <Button
+                    key='signup'
+                    onClick={() => navigate("#signup")}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    signup
+                  </Button>
+
+                </Box>
+                <Box sx={{ flexGrow: 0, display: {xs: 'flex',md: 'none' } }}>
                   <IconButton
                     size="large"
                     aria-label="account of current user"
@@ -130,105 +244,17 @@ const ResponsiveAppBar = () => {
                   </Menu>
                 </Box>
               </>
-            )}
-
-          <DirectionsCarIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/home"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            SPARKING
-          </Typography>
-
-          {user ? (
-              <>
-
-              </>
-            ) : (
-              <>
-                <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-                  <Button
-                    key='login'
-                    onClick={() => navigate("#login")}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
-                  >
-                    login
-                  </Button>
-
-                  <Button
-                    key='signup'
-                    onClick={() => navigate("#signup")}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
-                  >
-                    signup
-                  </Button>
-
-                </Box>       
-              </>
           )}
 
-          
-          {user && (
-              <>
-                <Box sx={{ flexGrow: 0}}>
-                  <Tooltip title="Open settings">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
-                    sx={{ mt: '45px' }}
-                    id="menu-appbar"
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
-                  >
-                    <MenuItem key="profile" onClick={() => navigate("/users/profile")}>
-                      <AccountCircle />
-                      <Typography textAlign="center">Profile</Typography>
-                    </MenuItem>
-                    <MenuItem key="Logout" onClick={() => logout() && navigate("/home")}>
-                      <Logout />
-                      <Typography textAlign="center">Logout</Typography>
-                    </MenuItem>
-                  </Menu>
-                </Box>
-              </>
-            )}
-            <Modal
-				      open={modal === "login" || modal === "signup" || modal =="profile"}
-				      onClose={() => navigate("#")}
-			      >
-				      <Box maxWidth="sm" margin="auto" marginTop="2rem">
-					      {modal === "login" && <LoginForm />}
-					      {modal === "signup" && <SignupForm />}
-                {modal === "profile" && <Profile />}
-				      </Box>
-			      </Modal>
-            
-
-
+          <Modal
+				    open={modal === "login" || modal === "signup"}
+				    onClose={() => navigate("#")}
+			    >
+				    <Box maxWidth="sm" margin="auto" marginTop="2rem">
+					    {modal === "login" && <LoginForm />}
+					    {modal === "signup" && <SignupForm />}
+				    </Box>
+			    </Modal>
         </Toolbar>
       </Container>
     </AppBar>
