@@ -94,7 +94,7 @@ const LoginForm = () => {
 				Not a member?{" "}
 				<Link
 					style={{ textDecoration: "none", cursor: "pointer" }}
-					onClick={() => navigate("/users/signup")}
+					onClick={() => navigate("#signup")}
 				>
 					Sign Up
 				</Link>

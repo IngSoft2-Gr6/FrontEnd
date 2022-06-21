@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Modal} from "@mui/material";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,6 +17,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import { AccountCircle, Logout, Map } from "@mui/icons-material";
+import { LoginForm, SignupForm } from "../auth";
+import {Profile} from '../../views';
 
 const pages = ['login','signup'];
 const settings = ['profile', 'Logout'];
@@ -53,7 +56,7 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
-  useEffect(() => {
+	useEffect(() => {
 		setModal(!user && location.hash.replace("#", ""));
 	}, [user, location]);
 
@@ -118,10 +121,10 @@ const ResponsiveAppBar = () => {
                       display: { xs: 'block', md: 'none' },
                     }}
                   >
-                    <MenuItem key='login' onClick={handleCloseNavMenuLogin}>
+                    <MenuItem key='login' onClick={() => navigate("#login")}>
                       <Typography textAlign="center">Login</Typography>
                     </MenuItem>
-                    <MenuItem key='signup' onClick={handleCloseNavMenuSignup}>
+                    <MenuItem key='signup' onClick={() => navigate("#signup")}>
                       <Typography textAlign="center">Signup</Typography>
                     </MenuItem>
                   </Menu>
@@ -158,7 +161,7 @@ const ResponsiveAppBar = () => {
                 <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
                   <Button
                     key='login'
-                    onClick={() => navigate("/users/login")}
+                    onClick={() => navigate("#login")}
                     sx={{ my: 2, color: 'white', display: 'block' }}
                   >
                     login
@@ -166,7 +169,7 @@ const ResponsiveAppBar = () => {
 
                   <Button
                     key='signup'
-                    onClick={() => navigate("/users/signup")}
+                    onClick={() => navigate("#signup")}
                     sx={{ my: 2, color: 'white', display: 'block' }}
                   >
                     signup
@@ -213,6 +216,16 @@ const ResponsiveAppBar = () => {
                 </Box>
               </>
             )}
+            <Modal
+				      open={modal === "login" || modal === "signup" || modal =="profile"}
+				      onClose={() => navigate("#")}
+			      >
+				      <Box maxWidth="sm" margin="auto" marginTop="2rem">
+					      {modal === "login" && <LoginForm />}
+					      {modal === "signup" && <SignupForm />}
+                {modal === "profile" && <Profile />}
+				      </Box>
+			      </Modal>
             
 
 
