@@ -7,6 +7,7 @@ import {
 
 import Menu from "./layout/Menu";
 import ResponsiveAppBar from "./layout/Appbar";
+import Searchbar from "./layout/Search";
 
 import { Home, Login, Profile, Signup } from "../views";
 import { Switch, ThemeProvider } from "@mui/material";
@@ -23,14 +24,17 @@ const App = () => {
 		document.body.style.backgroundColor = theme.palette.background.default;
 	}, [theme]);
 
+	
+
 	return (
 		<ThemeProvider theme={theme}>
 			<UserProvider>
 			
 				<div style={{ height: "100vh", width: "100vw" }}>
-					
+				
 					<Router >
-					<ResponsiveAppBar/>
+						<ResponsiveAppBar/>
+						<Searchbar/>
 						<Routes>
 							<Route exact path="/" element={<Navigate to="/home" />} />
 							<Route
