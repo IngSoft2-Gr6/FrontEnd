@@ -1,20 +1,12 @@
-import {
-	BrowserRouter as Router,
-	Navigate,
-	Route,
-	Routes,
-} from "react-router-dom";
-
-import Menu from "./layout/Menu";
-import ResponsiveAppBar from "./layout/Appbar";
-
-import { Home, Login, Profile, Signup } from "../views";
 import { Switch, ThemeProvider } from "@mui/material";
+import { DarkMode, LightMode } from "@mui/icons-material";
 import { useEffect, useState } from "react";
+import {BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom";
+import ResponsiveAppBar from "./layout/Appbar";
+import { Home, Login, Profile, Signup } from "../views";
 import { VerifyAccount, PasswordReset } from "./auth";
 import { UserProvider } from "../context/UserContext";
 import { getTheme, toggleTheme } from "./theme";
-import { DarkMode, LightMode } from "@mui/icons-material";
 
 const App = () => {
 	const [theme, setTheme] = useState(getTheme());

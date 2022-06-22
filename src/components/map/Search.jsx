@@ -2,6 +2,8 @@ import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 
+
+//search container
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -13,6 +15,7 @@ const Search = styled('div')(({ theme }) => ({
     width: 'auto',
   }));
   
+  //icon container
   const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
@@ -23,6 +26,8 @@ const Search = styled('div')(({ theme }) => ({
     justifyContent: 'center',
   }));
   
+
+  //input container
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
