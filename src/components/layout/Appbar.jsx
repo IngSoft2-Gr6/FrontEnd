@@ -1,30 +1,16 @@
-import * as React from 'react';
-import {Modal} from "@mui/material";
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import * as React from "react";
+import {AppBar, Avatar,Box,Button,Container,IconButton,Modal,Menu,
+        MenuItem,Toolbar,Tooltip,Typography} from "@mui/material";
+import {AccountCircle, Logout} from '@mui/icons-material';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
-import { AccountCircle, Logout, Map } from "@mui/icons-material";
 import { LoginForm, SignupForm } from "../auth";
 
-
-
-const pages = ['login','signup'];
-const settings = ['profile', 'Logout'];
-
 const ResponsiveAppBar = () => {
+
   const { user, logout } = useContext(UserContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -39,23 +25,11 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseNavMenuLogin = () => {
-    navigate("/users/login")
-    setAnchorElNav(null);
-  };
-
-  const handleCloseNavMenuSignup = () => {
-    navigate("/users/signup")
+  function handleCloseMenu(page){
     setAnchorElNav(null)
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+    setAnchorElUser(null)
+    navigate(page)
+  }
 
 	useEffect(() => {
 		setModal(!user && location.hash.replace("#", ""));
@@ -112,7 +86,7 @@ const ResponsiveAppBar = () => {
                 <Box sx={{ flexGrow: 0, ml:2}}>
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} >
-                      <Avatar alt="Remy Sharp">{user.name.charAt(0)}</Avatar>
+                      <Avatar alt="Remy Sharp">{user.name.charAt(0)} </Avatar>
                     </IconButton>
                   </Tooltip>
                   <Menu
@@ -129,13 +103,13 @@ const ResponsiveAppBar = () => {
                       horizontal: 'right',
                     }}
                     open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
+                    onClose={handleCloseMenu}
                   >
-                    <MenuItem key="profile" onClick={() => navigate("/users/profile")}>
+                    <MenuItem key="profile" onClick={() => handleCloseMenu("/users/profile")}>
                       <AccountCircle />
                       <Typography textAlign="center">Profile</Typography>
                     </MenuItem>
-                    <MenuItem key="Logout" onClick={() => logout() && navigate("/home")}>
+                    <MenuItem key="Logout" onClick={() => logout() && handleCloseMenu("/home")}>
                       <Logout />
                       <Typography textAlign="center">Logout</Typography>
                     </MenuItem>
@@ -186,15 +160,15 @@ const ResponsiveAppBar = () => {
                       horizontal: 'left',
                     }}
                     open={Boolean(anchorElNav)}
-                    onClose={handleCloseNavMenu}
+                    onClose={handleCloseMenu}
                     sx={{
                       display: { xs: 'block', md: 'none' },
                     }}
                   >
-                    <MenuItem key='login' onClick={() => navigate("#login")}>
+                    <MenuItem key='login' onClick={() => handleCloseMenu("#login")}>
                       <Typography textAlign="center">Login</Typography>
                     </MenuItem>
-                    <MenuItem key='signup' onClick={() => navigate("#signup")}>
+                    <MenuItem key='signup' onClick={() => handleCloseMenu("#signup")}>
                       <Typography textAlign="center">Signup</Typography>
                     </MenuItem>
                   </Menu>
@@ -205,6 +179,7 @@ const ResponsiveAppBar = () => {
           <Modal
 				    open={modal === "login" || modal === "signup"}
 				    onClose={() => navigate("#")}
+            sx={{overflow:'scroll'}}
 			    >
 				    <Box maxWidth="sm" margin="auto" marginTop="2rem">
 					    {modal === "login" && <LoginForm />}

@@ -7,7 +7,6 @@ import {
 
 import Menu from "./layout/Menu";
 import ResponsiveAppBar from "./layout/Appbar";
-import Searchbar from "./layout/Search";
 
 import { Home, Login, Profile, Signup } from "../views";
 import { Switch, ThemeProvider } from "@mui/material";
@@ -34,7 +33,6 @@ const App = () => {
 				
 					<Router >
 						<ResponsiveAppBar/>
-						<Searchbar/>
 						<Routes>
 							<Route exact path="/" element={<Navigate to="/home" />} />
 							<Route
