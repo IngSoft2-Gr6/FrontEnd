@@ -36,7 +36,7 @@ const ResponsiveAppBar = () => {
 	}, [user, location]);
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" mb="0">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <DirectionsCarIcon sx={{mr: 1 ,display: { xs: 'none', md: 'flex' }}} />
