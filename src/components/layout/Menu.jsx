@@ -14,7 +14,7 @@ import { UserContext } from "../../context/UserContext";
 import { LoginForm, SignupForm } from "../auth";
 
 const Menu = () => {
-	const { user, logout } = useContext(UserContext);
+	const { user, logout, setEmployee } = useContext(UserContext);
 	const [modal, setModal] = useState(false);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const location = useLocation();
@@ -30,7 +30,13 @@ const Menu = () => {
 
 	useEffect(() => {
 		setModal(!user && location.hash.replace("#", ""));
-	}, [user, location]);
+		const search = new URLSearchParams(location.search);
+		if (search.has("employee")) {
+			const token = search.get("token");
+			if (!token) return;
+			return setEmployee(token);
+		}
+	}, [user, location, setEmployee]);
 
 	// button style
 	const buttonStyle = {
