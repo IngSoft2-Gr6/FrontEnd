@@ -7,9 +7,9 @@ import SearchIcon from '@mui/icons-material/Search';
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.black, 0.75),
+    backgroundColor: alpha(theme.palette.background.default, 0.80),
     '&:hover': {
-      backgroundColor: alpha(theme.palette.common.black, 0.70),
+      backgroundColor: alpha(theme.palette.background.default, 0.70),
     },
     marginLeft: theme.spacing(1),
     width: 'auto',
@@ -24,12 +24,12 @@ const Search = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    color: theme.palette.text.secondary
   }));
   
 
   //input container
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
     '& .MuiInputBase-input': {
       padding: theme.spacing(1, 1, 1, 0),
       // vertical padding + font size from searchIcon
@@ -45,24 +45,24 @@ const Search = styled('div')(({ theme }) => ({
   const Searchbar = () => {
     return (
         <Search 				sx={{
-            position: "fixed",
-            top: 70,
-            right: 0,
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            m: "0.5rem",
-            zIndex: "1000",
+          position: "fixed",
+          top: 0,
+          left: 50,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          m: "0.5rem",
+          zIndex: "1000",
         }}>
-            <SearchIconWrapper>
-                <SearchIcon sx={{color: "#E5E5E5"}}/>
-            </SearchIconWrapper>
-            <StyledInputBase
-            placeholder="Search…"
-            sx={{color: "#F2F2F2"}}
-            inputProps={{ 'aria-label': 'search'}}
-            />
+          <SearchIconWrapper>
+              <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase
+          placeholder="Search…"
+          inputProps={{ 'aria-label': 'search'}}
+          />
         </Search>
+
     );
   };
 

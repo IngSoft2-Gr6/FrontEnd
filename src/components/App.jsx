@@ -3,6 +3,7 @@ import { DarkMode, LightMode } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import {BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom";
 import ResponsiveAppBar from "./layout/Appbar";
+import Menu from "./layout/Menu";
 import { Home, Login, Profile, Signup } from "../views";
 import { VerifyAccount, PasswordReset } from "./auth";
 import { UserProvider } from "../context/UserContext";
@@ -24,7 +25,7 @@ const App = () => {
 				<div style={{ height: "100vh", width: "100vw" }}>
 				
 					<Router >
-						<ResponsiveAppBar/>
+						<Menu/>
 						<Routes>
 							<Route exact path="/" element={<Navigate to="/home" />} />
 							<Route

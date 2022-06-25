@@ -36,6 +36,7 @@ const Menu = () => {
 	const buttonStyle = {
 		sx: { m: "0.5rem", p: "0.5rem 1rem" },
 		variant: "contained",
+		color: "primary"
 	};
 
 	return (
