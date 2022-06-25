@@ -10,10 +10,15 @@ import Menu from "./layout/Menu";
 import { Home, Profile } from "../views";
 import { Switch, ThemeProvider } from "@mui/material";
 import { useEffect, useState } from "react";
-import { VerifyAccount, PasswordReset } from "./auth";
 import { UserProvider } from "../context/UserContext";
 import { getTheme, toggleTheme } from "./theme";
 import { DarkMode, LightMode } from "@mui/icons-material";
+import { VerifyAccount, PasswordReset } from "./auth";
+import NewParking from "../views/NewParking";
+import Parking from "../views/Parking";
+import BusinessHours from "../views/BusinessHours";
+import ParkingProfile from "../views/ParkingProfile";
+import ParkingUpdate from "../views/ParkingUpdate";
 
 const App = () => {
 	const [theme, setTheme] = useState(getTheme());
@@ -30,6 +35,7 @@ const App = () => {
 						<Menu />
 						<Routes>
 							<Route exact path="/" element={<Navigate to="/home" />} />
+							<Route exact path="parking" element={<Parking />} />
 							<Route path="/">
 								<Route path="home" element={<Home />} />
 								<Route path="users">
@@ -37,6 +43,12 @@ const App = () => {
 									<Route path="verify/account" element={<VerifyAccount />} />
 									<Route path="password/reset" element={<PasswordReset />} />
 								</Route>
+							</Route>
+							<Route path="parking">
+								<Route path="profile" element={<ParkingProfile />} />
+								<Route path="register" element={<NewParking />} />
+								<Route path="businesshours" element={<BusinessHours />} />
+								<Route path="update" element={<ParkingUpdate />} />
 							</Route>
 							<Route path="*" element={<Navigate to="/home" />} />
 						</Routes>
