@@ -19,6 +19,9 @@ import Parking from "../views/Parking";
 import BusinessHours from "../views/BusinessHours";
 import ParkingProfile from "../views/ParkingProfile";
 import ParkingUpdate from "../views/ParkingUpdate";
+import ParkingRating from "../views/ParkingLotRating";
+import DriverRating from "../views/DriverRating";
+import NewCar from "../views/NewCar";
 
 const App = () => {
 	const [theme, setTheme] = useState(getTheme());
@@ -49,6 +52,11 @@ const App = () => {
 								<Route path="register" element={<NewParking />} />
 								<Route path="businesshours" element={<BusinessHours />} />
 								<Route path="update" element={<ParkingUpdate />} />
+								<Route path="rating" element={<DriverRating />} />
+							</Route>
+							<Route path="driver">
+								<Route path="rating" element={<ParkingRating />} />
+								<Route path="registervehicle" element={<NewCar />} />
 							</Route>
 							<Route path="*" element={<Navigate to="/home" />} />
 						</Routes>

@@ -1,14 +1,23 @@
 import * as React from "react";
 import Rating from "@mui/material/Rating";
-import { Typography } from "@mui/material";
+import {
+	Typography,
+	Paper,
+	TextField,
+	LinearProgress,
+	Button,
+} from "@mui/material";
 import API from "../../config/axios";
 import FormHooks from "../../hooks/formHooks";
 import { ratingSchema } from "../../schemas/rating";
+import { until } from "../../helpers/until";
+import { useState } from "react";
 
 const RatingDriver = () => {
 	const { formProps, handleSubmit } = FormHooks(ratingSchema, "onChange");
 
 	const [submitting, setSubmitting] = useState(false);
+	const [status, setStatus] = useState({});
 	const onSubmit = async (data) => {
 		console.log("Data: ", data);
 		setSubmitting(true);
@@ -26,6 +35,12 @@ const RatingDriver = () => {
 			onSubmit={handleSubmit(onSubmit)}
 		>
 			{submitting && <LinearProgress />}
+			<Typography
+				variant="h8"
+				color={status.error ? "error.main" : "success.main"}
+			>
+				{status.error || status.success}
+			</Typography>
 			<Typography component="legend">Rating driver</Typography>
 			<Rating
 				name="Rating Drive"
