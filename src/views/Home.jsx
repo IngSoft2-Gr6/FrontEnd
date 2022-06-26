@@ -5,7 +5,7 @@ const Home = () => {
 	return (
 		<>
 			<Searchbar/>
-			<Map/>
+			<Map style={{position: "absolute"}}/>
 		</>
 
 	);

@@ -20,7 +20,7 @@ const VerifyAccount = () => {
 	if (localStorage.getItem("loggedIn")) {
 		return <Navigate to="/home" />;
 	}
-	return <Navigate to="/users/login" />;
+	return <Navigate to="/home#login" />;
 };
 
 export default VerifyAccount;

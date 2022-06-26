@@ -36,7 +36,7 @@ const PasswordReset = () => {
 		setSubmitting(false);
 		if (err) return setStatus({ error: err.message.data?.message });
 		setStatus({ success: res.data?.message });
-		navigate("/users/login");
+		navigate("/home#login");
 	};
 
 	return (
