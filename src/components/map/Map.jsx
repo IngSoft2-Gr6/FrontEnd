@@ -20,10 +20,12 @@ import {
 } from "@mui/material";
 import { useEffect, useContext } from "react";
 import ParkingRating from "../../views/ParkingLotRating";
+import ReserveConfirm from "../../views/ReserveConfirm";
 import { UserContext } from "../../context/UserContext";
 import FormHooks from "../../hooks/formHooks";
 import { ratingSchema } from "../../schemas/rating";
 import Rating from "@mui/material/Rating";
+
 
 const Map = () => {
 	const { formProps } = FormHooks(ratingSchema, "onChange");
@@ -52,8 +54,8 @@ const Map = () => {
 			style={{ height: "100%", width: "100%" }}
 		>
 			<TileLayer
-				attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+				attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+				url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
 			/>
 
 			{parkings.map((parking) => (
@@ -121,19 +123,20 @@ const Map = () => {
 										</Grid>
 									</Grid>
 								</Grid>
-
-								<Grid item xs={12}>
-									<Grid container spacing="3">
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<Button
-												variant="outlined"
-												onClick={() => navigate("#rating")}
-											>
-												Reservar
-											</Button>
+								{user ? (
+									<Grid item xs={12}>
+										<Grid container spacing="3">
+											<Grid item lg={12} md={12} sm={12} xs={12}>
+												<Button
+													variant="outlined"
+													onClick={() => navigate("#reserve")}
+												>
+													Reservar
+												</Button>
+											</Grid>
 										</Grid>
 									</Grid>
-								</Grid>
+								) : (<></>)}
 
 								<Grid item xs={12}>
 									<Grid container spacing="3">
@@ -144,18 +147,20 @@ const Map = () => {
 									</Grid>
 								</Grid>
 
-								<Grid item xs={12}>
-									<Grid container spacing="3">
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<Button
-												variant="outlined"
-												onClick={() => navigate("#rating")}
-											>
-												Calificar parqueadero
-											</Button>
+								{user ? (
+									<Grid item xs={12}>
+										<Grid container spacing="3">
+											<Grid item lg={12} md={12} sm={12} xs={12}>
+												<Button
+													variant="outlined"
+													onClick={() => navigate("#rating")}
+												>
+													Calificar parqueadero
+												</Button>
+											</Grid>
 										</Grid>
 									</Grid>
-								</Grid>
+								) : (<></>)}
 
 								<Grid item xs={12}>
 									<Grid container spacing="50">
@@ -198,9 +203,10 @@ const Map = () => {
 					</Popup>
 				</Marker>
 			))}
-			<Modal open={modal === "rating"} onClose={() => navigate("#")}>
+			<Modal open={modal === "rating" || modal === "reserve"} onClose={() => navigate("#")}>
 				<Box maxWidth="sm" margin="auto" marginTop="2rem">
 					{modal === "rating" && <ParkingRating />}
+					{modal === "reserve" && <ReserveConfirm/>}
 				</Box>
 			</Modal>
 		</MapContainer>

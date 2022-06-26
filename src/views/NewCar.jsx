@@ -1,5 +1,5 @@
 import { Box, Container } from "@mui/material";
-import RegisterVehicle from "../components/Driver/registerVehicle";
+import RegisterVehicle from "../components/driver/registerVehicle";
 
 const NewCar = () => {
 	return (

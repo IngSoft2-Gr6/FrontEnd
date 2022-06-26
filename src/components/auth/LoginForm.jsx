@@ -24,19 +24,15 @@ const LoginForm = () => {
 	const navigate = useNavigate();
 
 	// get user context
-	const { getUser, employee, setEmployee } = useContext(UserContext);
+	const { getUser } = useContext(UserContext);
 
 	const [submitting, setSubmitting] = useState(false);
 	const [status, setStatus] = useState({});
 
 	const onSubmit = async (data) => {
 		setSubmitting(true);
-		if (employee) {
-			data = { ...data, token: employee };
-		}
 		const [err, res] = await until(API.post("/users/login", data));
 		setSubmitting(false);
-		setEmployee(false);
 		if (err) return setStatus({ error: err.response.data?.message });
 		setStatus({ success: res.data?.message });
 		localStorage.setItem("loggedIn", true);
