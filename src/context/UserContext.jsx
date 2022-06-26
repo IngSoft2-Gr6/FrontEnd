@@ -6,6 +6,7 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
+	const [employee, setEmployee] = useState(false);
 
 	const getUser = async () => {
 		if (!localStorage.getItem("loggedIn")) return;
@@ -27,7 +28,9 @@ export const UserProvider = ({ children }) => {
 	}, []);
 
 	return (
-		<UserContext.Provider value={{ user, getUser, logout }}>
+		<UserContext.Provider
+			value={{ user, getUser, logout, setEmployee, employee }}
+		>
 			{children}
 		</UserContext.Provider>
 	);

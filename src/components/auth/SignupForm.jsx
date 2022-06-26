@@ -13,10 +13,12 @@ import { FormPassword, FormSelect } from "../form";
 import { signupSchema } from "../../schemas/auth";
 import { until } from "../../helpers/until";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 const SignupForm = () => {
 	const { formProps, handleSubmit } = FormHooks(signupSchema, "onChange");
+	const { employee, setEmployee } = useContext(UserContext);
 	const navigate = useNavigate();
 
 	const [submitting, setSubmitting] = useState(false);
@@ -32,14 +34,16 @@ const SignupForm = () => {
 	const roles = [
 		{ value: 2, label: "Driver" },
 		{ value: 3, label: "Parking Lot Owner" },
-		{ value: 4, label: "Employee" },
 	];
 
 	const onSubmit = async (data) => {
-		console.log(data);
 		setSubmitting(true);
+		if (employee) {
+			data = { ...data, token: employee };
+		}
 		const [err, res] = await until(API.post("/users/signup", data));
 		setSubmitting(false);
+		setEmployee(false);
 		if (err) return setStatus({ error: err.response.data?.message });
 		setStatus({ success: res.data?.message });
 		navigate("#login");
@@ -86,8 +90,8 @@ const SignupForm = () => {
 			<TextField label="Phone" {...formProps("phone")} />
 			<FormSelect
 				label="Role"
-				defaultValue={2}
-				options={roles}
+				defaultValue={employee ? 4 : 2}
+				options={employee ? [{ value: 4, label: "Employee" }] : roles}
 				{...formProps("roleId")}
 			/>
 			<Button type="submit" variant="contained" fullWidth>
