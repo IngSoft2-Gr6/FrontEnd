@@ -14,14 +14,13 @@ import { UserProvider } from "../context/UserContext";
 import { getTheme, toggleTheme } from "./theme";
 import { DarkMode, LightMode } from "@mui/icons-material";
 import { VerifyAccount, PasswordReset } from "./auth";
-import NewParking from "../views/NewParking";
 import Parking from "../views/Parking";
 import BusinessHours from "../views/BusinessHours";
-import ParkingProfile from "../views/ParkingProfile";
 import ParkingUpdate from "../views/ParkingUpdate";
 import ParkingRating from "../views/ParkingLotRating";
 import DriverRating from "../views/DriverRating";
 import NewCar from "../views/NewCar";
+import CarsInfo from "../views/CarsInfo";
 
 const App = () => {
 	const [theme, setTheme] = useState(getTheme());
@@ -39,6 +38,7 @@ const App = () => {
 						<Routes>
 							<Route exact path="/" element={<Navigate to="/home" />} />
 							<Route exact path="parking" element={<Parking />} />
+							<Route exact path="vehicle" element={<CarsInfo />} />
 							<Route path="/">
 								<Route path="home" element={<Home />} />
 								<Route path="users">
@@ -48,17 +48,16 @@ const App = () => {
 								</Route>
 							</Route>
 							<Route path="parking">
-								<Route path="profile" element={<ParkingProfile />} />
-								<Route path="register" element={<NewParking />} />
 								<Route path="businesshours" element={<BusinessHours />} />
 								<Route path="update" element={<ParkingUpdate />} />
 								<Route path="rating" element={<DriverRating />} />
 							</Route>
 							<Route path="driver">
 								<Route path="rating" element={<ParkingRating />} />
-								<Route path="registervehicle" element={<NewCar />} />
 							</Route>
-							<Route path="*" element={<Navigate to="/home" />} />
+							<Route path="vehicle">
+								<Route path="register" element={<NewCar />} />
+							</Route>
 						</Routes>
 					</Router>
 				</div>
