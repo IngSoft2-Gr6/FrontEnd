@@ -1,11 +1,11 @@
 import { Box, Container } from "@mui/material";
-import ParkingsLot from "../components/parking/ParkingsLot";
+import ParkingInfo from "../components/viewsInformation/ParkingInfo";
 
 const Parking = () => {
 	return (
 		<Container maxWidth="sm">
 			<Box my={4}>
-				<ParkingsLot />
+				<ParkingInfo />
 			</Box>
 		</Container>
 	);

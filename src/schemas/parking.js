@@ -12,6 +12,15 @@ const fee = yup
 	.positive("Fee must be positive")
 	.required("Fee is required")
 	.typeError("Fee must be a number");
+const feePer = yup
+	.string()
+	.required("Fee per is required")
+	.oneOf(["hour", "minute"]);
+const minFee = yup
+	.number()
+	.positive("Fee must be positive")
+	.required("Fee is required")
+	.typeError("Fee must be a number");
 const capacity = yup
 	.number()
 	.integer("Capacity must be an integer")
@@ -26,6 +35,8 @@ export const parkingSchema = yup.object().shape({
 	address,
 	coords,
 	fee,
+	feePer,
+	minFee,
 	capacity,
 	keyNeeded,
 });

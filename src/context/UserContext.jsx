@@ -7,6 +7,8 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [employee, setEmployee] = useState(false);
+	const [vehicles, setVehicles] = useState([]);
+	const [parkings, setParkings] = useState([]);
 
 	const getUser = async () => {
 		if (!localStorage.getItem("loggedIn")) return;
@@ -21,6 +23,22 @@ export const UserProvider = ({ children }) => {
 		setUser(null);
 	};
 
+	const getVehicles = async () => {
+		const [err, res] = await until(API.get("/vehicles"));
+		if (err) return err.response.data?.message;
+		setVehicles(res.data.data);
+		return res.data.data;
+	};
+
+	const getParkings = async () => {
+		console.log("Getting parkings");
+		const [err, res] = await until(API.get("/parkingLots"));
+		console.log("Got parkings");
+		if (err) return err.response.data?.message;
+		setParkings(res.data.data);
+		return res.data.data;
+	};
+
 	useEffect(() => {
 		if (user) return;
 		getUser();
@@ -29,7 +47,17 @@ export const UserProvider = ({ children }) => {
 
 	return (
 		<UserContext.Provider
-			value={{ user, getUser, logout, setEmployee, employee }}
+			value={{
+				employee,
+				getParkings,
+				getUser,
+				getVehicles,
+				logout,
+				parkings,
+				setEmployee,
+				user,
+				vehicles,
+			}}
 		>
 			{children}
 		</UserContext.Provider>

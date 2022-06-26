@@ -6,30 +6,22 @@ import {
 	Typography,
 } from "@mui/material";
 import API from "../../config/axios";
-import { FormCheckbox } from "../form";
+import { FormCheckbox, FormSelect } from "../form";
 import FormHooks from "../../hooks/formHooks";
 import { parkingSchema } from "../../schemas/parking";
 import { until } from "../../helpers/until";
 import { useState } from "react";
-import QRCode from "qrcode";
 
 const RegisterParking = () => {
 	const { formProps, handleSubmit } = FormHooks(parkingSchema, "onChange");
 
 	const [submitting, setSubmitting] = useState(false);
 	const [status, setStatus] = useState({});
-	const [qrCode, setQrCode] = useState("");
 
-	const generateQRcode = async () => {
-		try {
-			const response = await QRCode.toDataURL(
-				"localhost:3000/parking/" + formProps.id
-			);
-			setQrCode(response);
-		} catch (error) {
-			console.log(error);
-		}
-	};
+	const feePer = [
+		{ value: "minute", label: "Minute" },
+		{ value: "hour", label: "Hour" },
+	];
 
 	const onSubmit = async (data) => {
 		console.log("Data: ", data);
@@ -61,25 +53,19 @@ const RegisterParking = () => {
 			<TextField label="Description *" {...formProps("description")} />
 			<TextField label="Address *" {...formProps("address")} />
 			<TextField label="Fee *" {...formProps("fee")} type="number" />
+			<FormSelect
+				label="Fee per *"
+				defaultValue={"minute"}
+				{...formProps("feePer")}
+				options={feePer}
+			/>
+			<TextField label="minFee *" {...formProps("minFee")} type="number" />
 			<TextField label="Coords *" {...formProps("coords")} />
 			<TextField label="Capacity *" {...formProps("capacity")} type="number" />
 			<FormCheckbox label="Key needed?" {...formProps("keyNeeded")} />
-			<Button
-				type="submit"
-				variant="contained"
-				fullWidth
-				onClick={() => {
-					generateQRcode();
-					console.log("Button clicked");
-				}}
-			>
+			<Button type="submit" variant="contained" fullWidth>
 				Register
 			</Button>
-			<div align="center">
-				<br></br>
-				<br></br>
-				{qrCode ? <img src={qrCode} alt="qrCode" /> : null}
-			</div>
 		</Paper>
 	);
 };
