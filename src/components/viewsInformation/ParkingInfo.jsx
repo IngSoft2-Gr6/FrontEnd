@@ -27,6 +27,7 @@ const ParkingInfo = () => {
 		if (!parkings) return;
 		const userparkings = parkings.map((v) => {
 			return {
+				Id: v.id,
 				Name: v.name,
 				Description: v.description,
 				Address: v.address,
@@ -85,7 +86,7 @@ const ParkingInfo = () => {
 											fullWidth
 											onClick={() => {
 												console.log("clicked");
-												navigate("/parking#qrcode");
+												navigate(`?parkingLotId=${v.Id}#qrcode`);
 											}}
 										>
 											Generate QR Code
@@ -95,7 +96,7 @@ const ParkingInfo = () => {
 											fullWidth
 											onClick={() => {
 												console.log("clicked");
-												navigate("#qrcode");
+												navigate("/parking/update");
 											}}
 										>
 											Update ParkingInfo
