@@ -1,11 +1,11 @@
 import { Box, Container } from "@mui/material";
-import Confirmreserve from "../components/reserve/ConfirmReserve";
+import ConfirmReserve from "../components/reserve/ConfirmReserves";
 
 const ReserveConfirm = () => {
 	return (
 		<Container maxWidth="sm">
 			<Box my={4}>
-				<Confirmreserve />
+				<ConfirmReserve />
 			</Box>
 		</Container>
 	);

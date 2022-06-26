@@ -23,8 +23,7 @@ import ParkingRating from "../views/ParkingLotRating";
 import DriverRating from "../views/DriverRating";
 import NewCar from "../views/NewCar";
 import Footer from "./layout/Footer";
-import ReserveConfirm from "../views/ReserveConfirm";
-
+import ReserveConfirm from "../views/ReserveConfirms";
 const App = () => {
 	const [theme, setTheme] = useState(getTheme());
 
@@ -44,7 +43,6 @@ const App = () => {
 							<Route exact path="parking" element={<Parking />} />
 							<Route path="/">
 								<Route path="home" element={<Home />} />
-								<Route path="reserve" element={<ReserveConfirm/>} />
 								<Route path="users">
 									<Route path="profile" element={<Profile />} />
 									<Route path="verify/account" element={<VerifyAccount />} />

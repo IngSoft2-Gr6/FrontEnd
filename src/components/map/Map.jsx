@@ -20,15 +20,29 @@ import {
 } from "@mui/material";
 import { useEffect, useContext } from "react";
 import ParkingRating from "../../views/ParkingLotRating";
-import ReserveConfirm from "../../views/ReserveConfirm";
+import ReserveConfirm from "../../views/ReserveConfirms";
 import { UserContext } from "../../context/UserContext";
 import FormHooks from "../../hooks/formHooks";
 import { ratingSchema } from "../../schemas/rating";
 import Rating from "@mui/material/Rating";
+import { getTheme } from "../theme";
+
 
 
 const Map = () => {
+
+	const DesignMap = () => {
+		const mode = localStorage.getItem("theme")
+		if(mode === "dark"){
+			return "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+		} else {
+			return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+		}
+	}
+
 	const { formProps } = FormHooks(ratingSchema, "onChange");
+	//https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+	//https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png
 	const { user } = useContext(UserContext);
 	const [parkings, setParkings] = useState([]);
 	const [modal, setModal] = useState(false);
@@ -40,6 +54,8 @@ const Map = () => {
 		setParkings(res.data.data);
 		console.log(res.data.data);
 	};
+
+
 
 	useEffect(() => {
 		Parkings();
@@ -55,7 +71,7 @@ const Map = () => {
 		>
 			<TileLayer
 				attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-				url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+				url={DesignMap()}
 			/>
 
 			{parkings.map((parking) => (
@@ -207,6 +223,7 @@ const Map = () => {
 				<Box maxWidth="sm" margin="auto" marginTop="2rem">
 					{modal === "rating" && <ParkingRating />}
 					{modal === "reserve" && <ReserveConfirm/>}
+					
 				</Box>
 			</Modal>
 		</MapContainer>
