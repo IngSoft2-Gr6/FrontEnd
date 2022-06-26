@@ -1,11 +1,11 @@
 import Map from "../components/map/Map";
 import Searchbar from "../components/map/Search";
 
-const Home = () => {
+const Home = ({theme}) => {
 	return (
 		<>
 			<Searchbar />
-			<Map style={{ position: "absolute" }} />
+			<Map theme={theme} style={{ position: "absolute" }} />
 		</>
 	);
 };

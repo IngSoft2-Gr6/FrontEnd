@@ -23,10 +23,9 @@ import ParkingRating from "../views/ParkingLotRating";
 import DriverRating from "../views/DriverRating";
 import NewCar from "../views/NewCar";
 import Footer from "./layout/Footer";
-import ReserveConfirm from "../views/ReserveConfirms";
+
 const App = () => {
 	const [theme, setTheme] = useState(getTheme());
-
 	useEffect(() => {
 		document.body.style.backgroundColor = theme.palette.background.default;
 	}, [theme]);
@@ -37,12 +36,12 @@ const App = () => {
 				<div style={{ height: "100vh", width: "100vw" }}>
 					<Router>
 						<Menu />
-						<Footer/>
+						<Footer />
 						<Routes>
 							<Route exact path="/" element={<Navigate to="/home" />} />
 							<Route exact path="parking" element={<Parking />} />
 							<Route path="/">
-								<Route path="home" element={<Home />} />
+								<Route path="home" element={<Home theme={theme} />} />
 								<Route path="users">
 									<Route path="profile" element={<Profile />} />
 									<Route path="verify/account" element={<VerifyAccount />} />
@@ -62,24 +61,26 @@ const App = () => {
 							</Route>
 							<Route path="*" element={<Navigate to="/home" />} />
 						</Routes>
-						
 					</Router>
 				</div>
 				<div
 					style={{
 						position: "fixed",
 						bottom: 16,
-						left:200,
+						left: 200,
 						width: "100%",
 						zIndex: "1002",
 					}}
 				>
 					<Switch
-						onChange={() => setTheme(toggleTheme(theme))}
+						onChange={() => {
+							setTheme(toggleTheme(theme));
+							window.location.href = "/home";
+						}}
 						checked={theme.palette.mode === "dark"}
 						icon={<LightMode color="primary" style={{ margin: "-2px" }} />}
 						checkedIcon={
-							<DarkMode color="primary" style={{ margin: "-2px"}} />
+							<DarkMode color="primary" style={{ margin: "-2px" }} />
 						}
 					/>
 				</div>

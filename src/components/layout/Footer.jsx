@@ -1,18 +1,10 @@
 import {
-	AppBar,
-	Avatar,
 	Box,
 	Button,
 	Container,
-	IconButton,
-	Modal,
-	Menu,
-	MenuItem,
 	Toolbar,
-	Tooltip,
 	Typography,
 } from "@mui/material";
-import { AccountCircle, Logout } from "@mui/icons-material";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -61,8 +53,8 @@ const Footer= () =>{
 					</Typography>
 					<Box sx={{ flexGrow: 0, display: "flex" }}>
 						<Button
-							key="login"
-							onClick={() => navigate("#login")}
+							key="info"
+							onClick={() => navigate("https://github.com/IngSoft2-Gr6/FrontEnd#login")}
 							sx={{ my: 2, ml: 2, display: "block" }}
 							>
 							Sobre nosotros

@@ -25,37 +25,28 @@ import { UserContext } from "../../context/UserContext";
 import FormHooks from "../../hooks/formHooks";
 import { ratingSchema } from "../../schemas/rating";
 import Rating from "@mui/material/Rating";
-import { getTheme } from "../theme";
 
-
-
-const Map = () => {
-
-	const DesignMap = () => {
-		const mode = localStorage.getItem("theme")
-		if(mode === "dark"){
-			return "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-		} else {
-			return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-		}
-	}
-
+const Map = ({ theme }) => {
 	const { formProps } = FormHooks(ratingSchema, "onChange");
-	//https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
-	//https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png
 	const { user } = useContext(UserContext);
 	const [parkings, setParkings] = useState([]);
 	const [modal, setModal] = useState(false);
 	const navigate = useNavigate();
 	const location = useLocation();
 
+	const colorMap = () => {
+		const mode = localStorage.getItem("theme");
+		if (mode === "dark") {
+			return "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png";
+		} else {
+			return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+		}
+	};
+
 	const Parkings = async () => {
 		const res = await API.get("/parkingLots/");
 		setParkings(res.data.data);
-		console.log(res.data.data);
 	};
-
-
 
 	useEffect(() => {
 		Parkings();
@@ -71,7 +62,7 @@ const Map = () => {
 		>
 			<TileLayer
 				attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-				url={DesignMap()}
+				url={colorMap()}
 			/>
 
 			{parkings.map((parking) => (
@@ -152,7 +143,9 @@ const Map = () => {
 											</Grid>
 										</Grid>
 									</Grid>
-								) : (<></>)}
+								) : (
+									<></>
+								)}
 
 								<Grid item xs={12}>
 									<Grid container spacing="3">
@@ -176,7 +169,9 @@ const Map = () => {
 											</Grid>
 										</Grid>
 									</Grid>
-								) : (<></>)}
+								) : (
+									<></>
+								)}
 
 								<Grid item xs={12}>
 									<Grid container spacing="50">
@@ -219,11 +214,13 @@ const Map = () => {
 					</Popup>
 				</Marker>
 			))}
-			<Modal open={modal === "rating" || modal === "reserve"} onClose={() => navigate("#")}>
+			<Modal
+				open={modal === "rating" || modal === "reserve"}
+				onClose={() => navigate("#")}
+			>
 				<Box maxWidth="sm" margin="auto" marginTop="2rem">
 					{modal === "rating" && <ParkingRating />}
-					{modal === "reserve" && <ReserveConfirm/>}
-					
+					{modal === "reserve" && <ReserveConfirm />}
 				</Box>
 			</Modal>
 		</MapContainer>
