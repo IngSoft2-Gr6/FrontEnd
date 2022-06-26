@@ -17,7 +17,6 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import RegisterParking from "../parking/RegisterParking";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-import ParkingInfo from "../viewsInformation/ParkingInfo";
 import RegisterVehicle from "../driver/registerVehicle";
 import QrCode from "../parking/QrCode";
 

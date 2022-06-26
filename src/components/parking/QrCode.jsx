@@ -1,8 +1,9 @@
 import QRCodeP from "qrcode";
 import { useState } from "react";
 import { Paper } from "@mui/material";
-import { useEffect, until } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { until } from "../../helpers/until";
 
 const QrCode = () => {
 	const [qrCode, setQrCode] = useState("false");
