@@ -4,6 +4,4 @@ import { until } from "../helpers/until";
 
 export const VehicleContext = createContext();
 
-export const VehicleProvider = ({children})=>{
-  
-}
+export const VehicleProvider = ({ children }) => {};

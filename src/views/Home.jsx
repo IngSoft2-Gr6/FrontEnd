@@ -4,10 +4,9 @@ import Searchbar from "../components/map/Search";
 const Home = () => {
 	return (
 		<>
-			<Searchbar/>
-			<Map style={{position: "absolute"}}/>
+			<Searchbar />
+			<Map style={{ position: "absolute" }} />
 		</>
-
 	);
 };
 

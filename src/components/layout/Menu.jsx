@@ -12,7 +12,7 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { LoginForm, SignupForm } from "../auth";
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 
 const Menu = () => {
 	const { user, logout } = useContext(UserContext);
@@ -37,7 +37,7 @@ const Menu = () => {
 	const buttonStyle = {
 		sx: { m: "0.5rem", p: "0.5rem 1rem" },
 		variant: "contained",
-		color: "primary"
+		color: "primary",
 	};
 
 	return (
@@ -78,7 +78,7 @@ const Menu = () => {
 								<AccountCircle /> Profile
 							</MenuItem>
 							<MenuItem onClick={() => navigate("/home")}>
-								<DirectionsCarIcon/> Vehicle
+								<DirectionsCarIcon /> Vehicle
 							</MenuItem>
 							<MenuItem onClick={() => navigate("/home")}>
 								<Map /> Map
