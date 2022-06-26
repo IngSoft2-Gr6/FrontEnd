@@ -17,11 +17,12 @@ const RegisterParking = () => {
 
 	const [submitting, setSubmitting] = useState(false);
 	const [status, setStatus] = useState({});
+	const parkingId = localStorage.getItem("parkingId");
 
 	const onSubmit = async (data) => {
 		console.log("Data: ", data);
 		setSubmitting(true);
-		const [err, res] = await until(API.patch("/parking/update", data));
+		const [err, res] = await until(API.patch(`/parking/${parkingId}`, data));
 		setSubmitting(false);
 		if (err) return setStatus({ error: err.response.data?.message });
 		setStatus({ success: res.data?.message });

@@ -26,7 +26,7 @@ const RegisterVehicle = () => {
 	const onSubmit = async (data) => {
 		console.log("Data: ", data);
 		setSubmitting(true);
-		const [err, res] = await until(API.post("/vehicle", data));
+		const [err, res] = await until(API.post("/vehicles", data));
 		setSubmitting(false);
 		if (err) return setStatus({ error: err.response.data?.message });
 		setStatus({ success: res.data?.message });
@@ -51,24 +51,16 @@ const RegisterVehicle = () => {
 			</Typography>
 			<FormSelect
 				label="Vehicle Type*"
-				name="vehicleType"
 				defaultValue={1}
 				options={vehicleType}
-				{...formProps("vehicleType")}
+				{...formProps("vehicleTypeId")}
 			/>
-			<TextField label="Plate*" {...formProps("plate")} />
-			<TextField label="Model*" {...formProps("model")} />
-			<TextField label="Color*" {...formProps("color")} />
-			<TextField label="Brand*" {...formProps("brand")} />
-			<TextField label="Year*" {...formProps("year")} />
-			<Button
-				type="submit"
-				variant="contained"
-				fullWidth
-				onClick={() => {
-					console.log("Button clicked");
-				}}
-			>
+			<TextField label="Plate *" {...formProps("plate")} />
+			<TextField label="Model" {...formProps("model")} />
+			<TextField label="Color" {...formProps("color")} />
+			<TextField label="Brand" {...formProps("brand")} />
+			<TextField label="Year" {...formProps("year")} />
+			<Button type="submit" variant="contained" fullWidth>
 				Register
 			</Button>
 		</Paper>

@@ -1,39 +1,48 @@
-import API from "../../config/axios";
-import { useState, useEffect } from "react";
-import { Box, Container, Typography } from "@mui/material";
-import { until } from "../../helpers/until";
+import { useState, useEffect, useContext } from "react";
+import {
+	Box,
+	Button,
+	Container,
+	Card,
+	CardActions,
+	CardContent,
+	Typography,
+} from "@mui/material";
+import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const ParkingInfo = () => {
-	const [parking, setParking] = useState({});
-	const [error, setError] = useState("");
-	const parkingLotId = "";
-	// get user data from API when component mounts
+	const { parkings, getParkings } = useContext(UserContext);
+	const [parkingsInfo, setparkingsInfo] = useState([]);
+
+	const navigate = useNavigate();
+
 	useEffect(() => {
-		const parking = localStorage.getItem("parking");
-		if (parking) setParking(JSON.parse(parking));
-		if (parking) return;
-		(async () => {
-			const [err, res] = await until(API.get(`/parking/${parkingLotId}`));
-			if (err) return setError(err.response.data.message);
-			// set parking in local storage
-			localStorage.setParking(
-				"parking",
-				JSON.stringify({
-					Name: res.data.data.name,
-					Description: res.data.data.description,
-					Address: res.data.data.address,
-					Capacity: res.data.data.capacity,
-					Fee: res.data.data.fee,
-					KeyNeeded: res.data.data.keyNeeded,
-				})
-			);
-		})();
+		getParkings();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	//get parking data from API when component mounts
+	useEffect(() => {
+		if (!parkings) return;
+		const userparkings = parkings.map((v) => {
+			return {
+				Name: v.name,
+				Description: v.description,
+				Address: v.address,
+				Fee: v.fee,
+				FeePer: v.feePer,
+				MinFee: v.minFee,
+				Capacity: v.capacity,
+			};
+		});
+		setparkingsInfo(userparkings);
+	}, [parkings]);
 
 	return (
 		<Container maxWidth="sm">
 			<Box my={4}>
-				{parking.Name && (
+				{parkingsInfo && (
 					<>
 						<Typography
 							variant="h4"
@@ -41,18 +50,77 @@ const ParkingInfo = () => {
 							align="center"
 							gutterBottom
 						>
-							Welcome, {parking.Name}!
+							Welcome, these are your parkings!
 						</Typography>
-						<Typography variant="body2" color="textPrimary">
-							{error}
-						</Typography>
-						<Typography mt={6}>{parking.Description}</Typography>
-						<Typography mt={6}>{parking.Address}</Typography>
-						<Typography mt={6}>{parking.Capacity}</Typography>
-						<Typography mt={6}>{parking.Fee}</Typography>
-						<Typography mt={6}>{parking.KeyNeeded}</Typography>
+						{parkingsInfo.map((v) => {
+							return (
+								<Card sx={{ minWidth: 275 }}>
+									<CardContent>
+										<Typography
+											sx={{ fontSize: 14 }}
+											color="text.secondary"
+											gutterBottom
+										>
+											{v.Name}
+										</Typography>
+										<Typography variant="h5" component="div">
+											{v.Description}
+										</Typography>
+										<Typography sx={{ mb: 1.5 }} color="text.secondary">
+											{v.Address}
+										</Typography>
+										<Typography variant="body2">
+											Fee: {v.Fee}
+											<br />
+											Fee Per: {v.FeePer}
+											<br />
+											Min Fee: {v.MinFee}
+											<br />
+											Capacity: {v.Capacity}
+										</Typography>
+									</CardContent>
+									<CardActions>
+										<Button
+											variant="contained"
+											fullWidth
+											onClick={() => {
+												console.log("clicked");
+												navigate("/parking#qrcode");
+											}}
+										>
+											Generate QR Code
+										</Button>
+										<Button
+											variant="contained"
+											fullWidth
+											onClick={() => {
+												console.log("clicked");
+												navigate("#qrcode");
+											}}
+										>
+											Update ParkingInfo
+										</Button>
+									</CardActions>
+								</Card>
+							);
+						})}
+						;
 					</>
 				)}
+				<br />
+				<Button
+					variant="contained"
+					fullWidth
+					onClick={() => {
+						console.log("clicked");
+						navigate("#newParking");
+					}}
+				>
+					Add parking
+				</Button>
+				<br />
+				<br />
+				<br />
 			</Box>
 		</Container>
 	);
