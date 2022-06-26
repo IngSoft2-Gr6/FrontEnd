@@ -24,6 +24,7 @@ import { UserContext } from "../../context/UserContext";
 import FormHooks from "../../hooks/formHooks";
 import { ratingSchema } from "../../schemas/rating";
 import Rating from "@mui/material/Rating";
+import { until } from "../../helpers/until";
 
 const Map = () => {
 	const { formProps } = FormHooks(ratingSchema, "onChange");
@@ -34,7 +35,9 @@ const Map = () => {
 	const location = useLocation();
 
 	const Parkings = async () => {
-		const res = await API.get("/parkingLots/");
+		const [err, res] = await until(API.get("/parkingLots"));
+		if (err) return;
+		if (!res) return;
 		setParkings(res.data.data);
 		console.log(res.data.data);
 	};

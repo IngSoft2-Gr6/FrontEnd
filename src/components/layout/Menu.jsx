@@ -13,11 +13,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { LoginForm, SignupForm } from "../auth";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import RegisterParking from "../parking/RegisterParking";
+import LocalParkingIcon from "@mui/icons-material/LocalParking";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import ParkingInfo from "../viewsInformation/ParkingInfo";
+import RegisterVehicle from "../Driver/registerVehicle";
+import QrCode from "../parking/QrCode";
 
 const Menu = () => {
 	const { user, logout, setEmployee } = useContext(UserContext);
 	const [modal, setModal] = useState(false);
 	const [anchorEl, setAnchorEl] = useState(null);
+	const [userRole, setUserRole] = useState([]);
 	const location = useLocation();
 	const navigate = useNavigate();
 	const open = Boolean(anchorEl);
@@ -30,7 +37,8 @@ const Menu = () => {
 	};
 
 	useEffect(() => {
-		setModal(!user && location.hash.replace("#", ""));
+		setModal(location.hash.replace("#", ""));
+		if (user) setUserRole(user.roles.map((role) => role.name));
 		const search = new URLSearchParams(location.search);
 		if (search.has("employee")) {
 			const token = search.get("token");
@@ -84,11 +92,29 @@ const Menu = () => {
 								<AccountCircle /> Profile
 							</MenuItem>
 							<MenuItem onClick={() => navigate("/home")}>
-								<DirectionsCarIcon /> Vehicle
-							</MenuItem>
-							<MenuItem onClick={() => navigate("/home")}>
 								<Map /> Map
 							</MenuItem>
+							{userRole.includes("Driver") && (
+								<>
+									<MenuItem onClick={() => navigate("#newVehicle")}>
+										<AppRegistrationIcon /> Register Vehicle
+									</MenuItem>
+									<MenuItem onClick={() => navigate("/vehicle")}>
+										<DirectionsCarIcon /> Vehicles
+									</MenuItem>
+								</>
+							)}
+							{userRole.includes("Owner") && (
+								<>
+									<MenuItem onClick={() => navigate("#newParking")}>
+										<AppRegistrationIcon /> Register Parking
+									</MenuItem>
+									<MenuItem onClick={() => navigate("/parking")}>
+										<LocalParkingIcon /> Parkings
+									</MenuItem>
+								</>
+							)}
+							{userRole.includes("Employee") && <></>}
 							<MenuItem onClick={() => logout() && navigate("/home")}>
 								<Logout /> Logout
 							</MenuItem>
@@ -106,12 +132,16 @@ const Menu = () => {
 				)}
 			</Box>
 			<Modal
-				open={modal === "login" || modal === "signup"}
+				open={modal}
 				onClose={() => navigate("#")}
+				sx={{ overflow: "auto" }}
 			>
 				<Box maxWidth="sm" margin="auto" marginTop="2rem">
 					{modal === "login" && <LoginForm />}
 					{modal === "signup" && <SignupForm />}
+					{modal === "newParking" && <RegisterParking />}
+					{modal === "newVehicle" && <RegisterVehicle />}
+					{modal === "qrcode" && <QrCode />}
 				</Box>
 			</Modal>
 		</>
