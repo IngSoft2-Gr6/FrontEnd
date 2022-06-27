@@ -24,7 +24,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "deploy": "yarn build && firebase deploy",
+    "ci": "yarn install --frozen-lockfile",
+    "force-local-deploy": "yarn build && firebase deploy",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
