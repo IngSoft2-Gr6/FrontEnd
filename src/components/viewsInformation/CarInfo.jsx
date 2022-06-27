@@ -26,6 +26,7 @@ const CarInfo = () => {
 		if (!vehicles) return;
 		const userVehicles = vehicles.map((v) => {
 			return {
+				Id: v.id,
 				Plate: v.plate,
 				Model: v.model,
 				Type: v.vehicleTypeId,
@@ -50,7 +51,7 @@ const CarInfo = () => {
 						</Typography>
 						{vehicleInfo.map((v) => {
 							return (
-								<Card sx={{ minWidth: 275 }}>
+								<Card sx={{ minWidth: 275 }} key={v.Id}>
 									<CardContent>
 										<Typography
 											sx={{ fontSize: 14 }}
