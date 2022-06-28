@@ -55,7 +55,7 @@ const ParkingInfo = () => {
 						</Typography>
 						{parkingsInfo.map((v) => {
 							return (
-								<Card sx={{ minWidth: 275 }}>
+								<Card sx={{ minWidth: 275 }} key={v.Id}>
 									<CardContent>
 										<Typography
 											sx={{ fontSize: 14 }}

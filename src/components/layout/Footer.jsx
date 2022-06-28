@@ -38,24 +38,6 @@ const Footer = () => {
 					>
 						SPARKING
 					</Typography>
-					<Box sx={{ flexGrow: 0, display: "flex" }}>
-						<Button
-							key="info"
-							onClick={() =>
-								navigate("https://github.com/IngSoft2-Gr6/FrontEnd#login")
-							}
-							sx={{ my: 2, ml: 2, display: "block" }}
-						>
-							Sobre nosotros
-						</Button>
-						<Button
-							key="signup"
-							onClick={() => navigate("#signup")}
-							sx={{ my: 2, display: "block" }}
-						>
-							Informacion legal
-						</Button>
-					</Box>
 				</Toolbar>
 			</Container>
 		</Footers>

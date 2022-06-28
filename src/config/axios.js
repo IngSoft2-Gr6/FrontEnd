@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-	baseURL: "http://localhost:4000/api/v1",
+	baseURL: "https://sparking-a081e.uc.r.appspot.com/api/v1",
 	withCredentials: true,
 });
 

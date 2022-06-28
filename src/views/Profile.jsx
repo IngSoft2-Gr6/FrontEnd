@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	Container,
 	List,
 	ListItem,
@@ -8,10 +9,12 @@ import {
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Profile = () => {
 	const { user } = useContext(UserContext);
 	const [userInfo, setUserInfo] = useState({});
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (!user) return;
@@ -76,6 +79,22 @@ const Profile = () => {
 						</List>
 					</>
 				)}
+				<Button
+					variant="contained"
+					fullWidth
+					onClick={() => {
+						console.log("clicked");
+						navigate("#updateProfile");
+					}}
+				>
+					Update
+				</Button>
+				<br></br>
+				<br></br>
+				<br></br>
+				<br></br>
+				<br></br>
+				<br></br>
 			</Box>
 		</Container>
 	);

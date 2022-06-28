@@ -19,9 +19,10 @@ import LocalParkingIcon from "@mui/icons-material/LocalParking";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import RegisterVehicle from "../driver/registerVehicle";
 import QrCode from "../parking/QrCode";
+import UpdateProfile from "../profile/updateProfile";
 
 const Menu = () => {
-	const { user, logout, setEmployee } = useContext(UserContext);
+	const { user, logout, setEmployee, isActiveTimer } = useContext(UserContext);
 	const [modal, setModal] = useState(false);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [userRole, setUserRole] = useState([]);
@@ -94,27 +95,33 @@ const Menu = () => {
 							<MenuItem onClick={() => navigate("/home")}>
 								<Map /> Map
 							</MenuItem>
+							{isActiveTimer && (
+								<MenuItem onClick={() => navigate("/reserve/inparking")}>
+									<AppRegistrationIcon /> Return to time in parking
+								</MenuItem>
+							)}
+
 							{userRole.includes("Driver") && (
-								<>
+								<div>
 									<MenuItem onClick={() => navigate("#newVehicle")}>
 										<AppRegistrationIcon /> Register Vehicle
 									</MenuItem>
 									<MenuItem onClick={() => navigate("/vehicle")}>
 										<DirectionsCarIcon /> Vehicles
 									</MenuItem>
-								</>
+								</div>
 							)}
 							{userRole.includes("Owner") && (
-								<>
+								<div>
 									<MenuItem onClick={() => navigate("#newParking")}>
 										<AppRegistrationIcon /> Register Parking
 									</MenuItem>
 									<MenuItem onClick={() => navigate("/parking")}>
 										<LocalParkingIcon /> Parkings
 									</MenuItem>
-								</>
+								</div>
 							)}
-							{userRole.includes("Employee") && <></>}
+							{userRole.includes("Employee") && <div></div>}
 							<MenuItem onClick={() => logout() && navigate("/home")}>
 								<Logout /> Logout
 							</MenuItem>
@@ -132,7 +139,7 @@ const Menu = () => {
 				)}
 			</Box>
 			<Modal
-				open={modal}
+				open={!!modal}
 				onClose={() => navigate("#")}
 				sx={{ overflow: "auto" }}
 			>
@@ -142,6 +149,7 @@ const Menu = () => {
 					{modal === "newParking" && <RegisterParking />}
 					{modal === "newVehicle" && <RegisterVehicle />}
 					{modal === "qrcode" && <QrCode />}
+					{modal === "updateProfile" && <UpdateProfile />}
 				</Box>
 			</Modal>
 		</>
