@@ -1,6 +1,5 @@
-import { Box, Button, Container, Toolbar, Typography } from "@mui/material";
+import { Container, Toolbar, Typography } from "@mui/material";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 
 const Footers = styled("footer")(({ theme }) => ({
@@ -14,8 +13,6 @@ const Footers = styled("footer")(({ theme }) => ({
 }));
 
 const Footer = () => {
-	const navigate = useNavigate();
-
 	return (
 		<Footers>
 			<Container maxWidth="xl">
