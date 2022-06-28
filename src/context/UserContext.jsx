@@ -9,6 +9,42 @@ export const UserProvider = ({ children }) => {
 	const [employee, setEmployee] = useState(false);
 	const [vehicles, setVehicles] = useState([]);
 	const [parkings, setParkings] = useState([]);
+	const [timer, setTimer] = useState(
+		parseInt(localStorage.getItem("timer")) || 0
+	);
+	const [isActiveTimer, setIsActiveTimer] = useState(
+		localStorage.getItem("isActiveTimer") === "true"
+	);
+	const [realTime, setRealTime] = useState(false);
+
+	const toggleTimer = () => {
+		setIsActiveTimer(!isActiveTimer);
+		localStorage.setItem("isActiveTimer", !isActiveTimer);
+	};
+
+	useEffect(() => {
+		let interval = null;
+		if (isActiveTimer) {
+			// interval minute
+			interval = setInterval(() => {
+				setTimer(timer + 1);
+			}, 1000);
+			localStorage.setItem("timer", timer + 1);
+			const hours = Math.floor(timer / 3600);
+			const minutes = Math.floor((timer % 3600) / 60);
+			const seconds = timer % 60;
+			// ser string with leading zeros
+			const realTime = `${hours < 10 ? `0${hours}` : hours}:${
+				minutes < 10 ? `0${minutes}` : minutes
+			}:${seconds < 10 ? `0${seconds}` : seconds}`;
+			setRealTime(realTime);
+		} else {
+			clearInterval(interval);
+			localStorage.setItem("timer", 0);
+			setTimer(0);
+		}
+		return () => clearInterval(interval);
+	}, [isActiveTimer, timer]);
 
 	const getUser = async () => {
 		if (!localStorage.getItem("loggedIn")) return;
@@ -55,6 +91,10 @@ export const UserProvider = ({ children }) => {
 				logout,
 				parkings,
 				setEmployee,
+				toggleTimer,
+				isActiveTimer,
+				timer,
+				realTime,
 				user,
 				vehicles,
 			}}
