@@ -6,17 +6,19 @@ import {
 } from "@mui/material";
 import { forwardRef } from "react";
 
-const FormCheckbox = forwardRef((props, ref) => {
-	const label = props.label || "";
-	return (
-		<FormGroup row style={{ justifyContent: "center" }} ref={ref}>
-			<FormControlLabel
-				control={<Checkbox color="primary" {...props} />}
-				label={label}
-			/>
-			{props.error && <FormHelperText error>{props.error}</FormHelperText>}
-		</FormGroup>
-	);
-});
+const FormCheckbox = forwardRef(
+	({ error, helperText, label, fullWidth, ...props }, ref) => {
+		return (
+			<FormGroup row style={{ justifyContent: "center" }} ref={ref}>
+				<FormControlLabel
+					control={<Checkbox color="primary" {...props} />}
+					label={label}
+				/>
+				{error && <FormHelperText error>{error}</FormHelperText>}
+				{helperText && <FormHelperText>{helperText}</FormHelperText>}
+			</FormGroup>
+		);
+	}
+);
 
 export default FormCheckbox;

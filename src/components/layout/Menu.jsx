@@ -95,26 +95,26 @@ const Menu = () => {
 								<Map /> Map
 							</MenuItem>
 							{userRole.includes("Driver") && (
-								<>
+								<div>
 									<MenuItem onClick={() => navigate("#newVehicle")}>
 										<AppRegistrationIcon /> Register Vehicle
 									</MenuItem>
 									<MenuItem onClick={() => navigate("/vehicle")}>
 										<DirectionsCarIcon /> Vehicles
 									</MenuItem>
-								</>
+								</div>
 							)}
 							{userRole.includes("Owner") && (
-								<>
+								<div>
 									<MenuItem onClick={() => navigate("#newParking")}>
 										<AppRegistrationIcon /> Register Parking
 									</MenuItem>
 									<MenuItem onClick={() => navigate("/parking")}>
 										<LocalParkingIcon /> Parkings
 									</MenuItem>
-								</>
+								</div>
 							)}
-							{userRole.includes("Employee") && <></>}
+							{userRole.includes("Employee") && <div></div>}
 							<MenuItem onClick={() => logout() && navigate("/home")}>
 								<Logout /> Logout
 							</MenuItem>
@@ -132,7 +132,7 @@ const Menu = () => {
 				)}
 			</Box>
 			<Modal
-				open={modal}
+				open={!!modal}
 				onClose={() => navigate("#")}
 				sx={{ overflow: "auto" }}
 			>
