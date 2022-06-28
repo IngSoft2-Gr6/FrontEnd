@@ -19,6 +19,7 @@ import BusinessHours from "../views/BusinessHours";
 import ParkingUpdate from "../views/ParkingUpdate";
 import ParkingRating from "../views/ParkingLotRating";
 import DriverRating from "../views/DriverRating";
+import TimeInParking from "../views/TimeInParking";
 import NewCar from "../views/NewCar";
 import Footer from "./layout/Footer";
 import CarsInfo from "../views/CarsInfo";
@@ -59,6 +60,9 @@ const App = () => {
 							<Route path="vehicle">
 								<Route path="register" element={<NewCar />} />
 							</Route>
+							<Route path="reserve">
+								<Route path="inparking" element={<TimeInParking />} />
+							</Route>
 						</Routes>
 					</Router>
 				</div>
@@ -66,7 +70,7 @@ const App = () => {
 					style={{
 						position: "fixed",
 						bottom: 16,
-						left: 200,
+						left: "80%",
 						width: "100%",
 						zIndex: "1002",
 					}}

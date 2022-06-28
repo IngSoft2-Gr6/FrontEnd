@@ -22,13 +22,10 @@ import { useEffect, useContext } from "react";
 import ParkingRating from "../../views/ParkingLotRating";
 import ReserveConfirm from "../../views/ReserveConfirms";
 import { UserContext } from "../../context/UserContext";
-import FormHooks from "../../hooks/formHooks";
-import { ratingSchema } from "../../schemas/rating";
 import Rating from "@mui/material/Rating";
 import { until } from "../../helpers/until";
 
 const Map = ({ theme }) => {
-	const { formProps } = FormHooks(ratingSchema, "onChange");
 	const { user } = useContext(UserContext);
 	const [parkings, setParkings] = useState([]);
 	const [modal, setModal] = useState(false);
@@ -49,6 +46,17 @@ const Map = ({ theme }) => {
 		if (err) return;
 		if (!res) return;
 		setParkings(res.data.data);
+	};
+
+	const RatingParking = (parkingLotId) => {
+		localStorage.setItem("parkingLotId", parkingLotId);
+		console.log(localStorage.getItem("parkingLotId"));
+		navigate("#rating");
+	};
+
+	const ReserveParking = (parking) => {
+		localStorage.setItem("actualParking", JSON.stringify(parking));
+		navigate("#reserve");
 	};
 
 	useEffect(() => {
@@ -87,23 +95,23 @@ const Map = ({ theme }) => {
 										<Grid item lg={3} md={4} sm={4} xs={12}>
 											<Avatar
 												style={{
-													top: "50%",
-													left: "50%",
+													top: "20%",
 													width: "50px",
 													height: "50px",
+													backgroundColor: "orange",
 												}}
 											>
 												{parking.name.charAt(0)}{" "}
 											</Avatar>
 										</Grid>
 										<Grid item lg={9} md={8} sm={8} xs={12}>
-											<Typography>{parking.name}</Typography>
+											<Typography variant="h6">{parking.name}</Typography>
 											<Typography>{parking.address}</Typography>
 											<Rating
 												name="Rating Parking Lot"
 												defaultValue={2.5}
 												precision={0.5}
-												{...formProps("ratingParkingLot")}
+												readOnly
 											/>
 										</Grid>
 									</Grid>
@@ -111,17 +119,33 @@ const Map = ({ theme }) => {
 
 								<Grid item xs={12}>
 									<Grid container>
-										<Grid item lg={6} md={6} sm={6} xs={6}>
-											<Avatar>
+										<Grid
+											item
+											lg={4}
+											md={4}
+											sm={4}
+											xs={0}
+											justify="center"
+										></Grid>
+										<Grid item lg={4} md={4} sm={4} xs={4} justify="center">
+											<Avatar
+												style={{
+													backgroundColor: "#82b3c9",
+												}}
+											>
 												<Typography>{parking.fee}</Typography>
 											</Avatar>
-											Tarifa
+											Fee
 										</Grid>
-										<Grid item lg={6} md={6} sm={6} xs={6}>
-											<Avatar>
+										<Grid item lg={4} md={4} sm={4} xs={4}>
+											<Avatar
+												style={{
+													backgroundColor: "#82b3c9",
+												}}
+											>
 												<Typography>{parking.capacity}</Typography>
 											</Avatar>
-											Capacidad
+											Capacity
 										</Grid>
 									</Grid>
 								</Grid>
@@ -139,9 +163,9 @@ const Map = ({ theme }) => {
 											<Grid item lg={12} md={12} sm={12} xs={12}>
 												<Button
 													variant="outlined"
-													onClick={() => navigate("#reserve")}
+													onClick={() => ReserveParking(parking)}
 												>
-													Reservar
+													Reserve
 												</Button>
 											</Grid>
 										</Grid>
@@ -153,7 +177,10 @@ const Map = ({ theme }) => {
 								<Grid item xs={12}>
 									<Grid container spacing="3">
 										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<Typography> Comentarios</Typography>
+											<Typography style={{ margin: "0px" }}>
+												{" "}
+												Comments
+											</Typography>
 											<hr></hr>
 										</Grid>
 									</Grid>
@@ -165,9 +192,9 @@ const Map = ({ theme }) => {
 											<Grid item lg={12} md={12} sm={12} xs={12}>
 												<Button
 													variant="outlined"
-													onClick={() => navigate("#rating")}
+													onClick={() => RatingParking(parking.id)}
 												>
-													Calificar parqueadero
+													qualify parking
 												</Button>
 											</Grid>
 										</Grid>
@@ -178,37 +205,56 @@ const Map = ({ theme }) => {
 
 								<Grid item xs={12}>
 									<Grid container spacing="50">
-										<Grid item lg={3} md={4} sm={4} xs={12}>
-											<Avatar style={{ top: "50%", left: "50%" }}>A</Avatar>
+										<Grid item lg={3} md={3} sm={3} xs={3}>
+											<Avatar style={{ left: "50%" }}>A</Avatar>
 										</Grid>
-										<Grid item lg={9} md={8} sm={8} xs={12}>
-											<Typography>Nombre del usuario</Typography>
+										<Grid item lg={9} md={9} sm={9} xs={9}>
+											<Typography variant="h7">Nombre del usuario</Typography>
 											<Rating
 												name="Rating Parking Lot"
 												defaultValue={2.5}
 												precision={0.5}
-												{...formProps("ratingParkingLot")}
+												readOnly
 											/>
-											<Typography>Comentario del usuario</Typography>
-											<hr></hr>
+										</Grid>
+									</Grid>
+								</Grid>
+
+								<Grid item xs={12}>
+									<Grid container spacing="">
+										<Grid item lg={12} md={12} sm={12} xs={12}>
+											<Typography style={{ margin: "0px" }}>
+												Comentario del usuario
+											</Typography>
+											<hr size="1"></hr>
 										</Grid>
 									</Grid>
 								</Grid>
 
 								<Grid item xs={12}>
 									<Grid container spacing="50">
-										<Grid item lg={3} md={4} sm={4} xs={12}>
-											<Avatar style={{ top: "50%", left: "50%" }}>A</Avatar>
+										<Grid item lg={3} md={3} sm={3} xs={3}>
+											<Avatar style={{ left: "50%" }}>A</Avatar>
 										</Grid>
-										<Grid item lg={9} md={8} sm={8} xs={12}>
-											<Typography>Nombre del usuario</Typography>
+										<Grid item lg={9} md={9} sm={9} xs={9}>
+											<Typography variant="h7">Nombre del usuario</Typography>
 											<Rating
 												name="Rating Parking Lot"
 												defaultValue={2.5}
 												precision={0.5}
-												{...formProps("ratingParkingLot")}
+												readOnly
 											/>
-											<Typography>Comentario del usuario</Typography>
+										</Grid>
+									</Grid>
+								</Grid>
+
+								<Grid item xs={12}>
+									<Grid container>
+										<Grid item lg={12} md={12} sm={12} xs={12}>
+											<Typography style={{ margin: "0px" }}>
+												Comentario del usuario
+											</Typography>
+											<hr size="1"></hr>
 										</Grid>
 									</Grid>
 								</Grid>
