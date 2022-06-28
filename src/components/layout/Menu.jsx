@@ -19,6 +19,7 @@ import LocalParkingIcon from "@mui/icons-material/LocalParking";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import RegisterVehicle from "../driver/registerVehicle";
 import QrCode from "../parking/QrCode";
+import UpdateProfile from "../profile/updateProfile";
 
 const Menu = () => {
 	const { user, logout, setEmployee, isActiveTimer } = useContext(UserContext);
@@ -148,6 +149,7 @@ const Menu = () => {
 					{modal === "newParking" && <RegisterParking />}
 					{modal === "newVehicle" && <RegisterVehicle />}
 					{modal === "qrcode" && <QrCode />}
+					{modal === "updateProfile" && <UpdateProfile />}
 				</Box>
 			</Modal>
 		</>
