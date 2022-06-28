@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
 	const { user } = useContext(UserContext);

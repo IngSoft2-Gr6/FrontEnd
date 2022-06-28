@@ -6,28 +6,17 @@ import {
 	Typography,
 } from "@mui/material";
 import API from "../../config/axios";
-import { FormCheckbox } from "../form";
 import FormHooks from "../../hooks/formHooks";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { profileSchema } from "../../schemas/profile";
 import { until } from "../../helpers/until";
-import { useState, useContext, useEffect } from "react";
-import { UserContext } from "../../context/UserContext";
-import { Navigate } from "react-router-dom";
+import { useState } from "react";
 
 const UpdateProfile = () => {
 	const { formProps, handleSubmit } = FormHooks(profileSchema, "onChange");
-	const { user } = useContext(UserContext);
 	const navigate = useNavigate();
 	const [submitting, setSubmitting] = useState(false);
 	const [status, setStatus] = useState({});
-	const [userId, setUserId] = useState();
-
-	useEffect(() => {
-		const userid = user.userId;
-		console.log(userid);
-		setUserId(userid);
-	}, [user]);
 
 	const onSubmit = async (data) => {
 		console.log("Data: ", data);
