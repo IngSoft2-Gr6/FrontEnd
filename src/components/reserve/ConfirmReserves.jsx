@@ -1,8 +1,10 @@
-import * as React from "react";
 import { Paper, Typography, Button } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 const ConfirmReserve = () => {
+	const { toggleTimer } = useContext(UserContext);
 	const navigate = useNavigate();
 
 	return (
@@ -10,7 +12,14 @@ const ConfirmReserve = () => {
 			<Typography>
 				Do you want to make your reservation in this parking lot?
 			</Typography>
-			<Button onClick={() => navigate("/reserve/inparking")}>Accept</Button>
+			<Button
+				onClick={() => {
+					toggleTimer();
+					navigate("/reserve/inparking");
+				}}
+			>
+				Accept
+			</Button>
 			<Button color="error">Cancel</Button>
 		</Paper>
 	);

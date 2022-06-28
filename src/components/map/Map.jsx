@@ -194,7 +194,7 @@ const Map = ({ theme }) => {
 													variant="outlined"
 													onClick={() => RatingParking(parking.id)}
 												>
-													qualify parking
+													Rate parking
 												</Button>
 											</Grid>
 										</Grid>

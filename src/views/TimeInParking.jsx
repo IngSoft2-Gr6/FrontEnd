@@ -12,7 +12,7 @@ import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 const TimeInParking = () => {
-	const { user } = useContext(UserContext);
+	const { user, realTime, toggleTimer, timer } = useContext(UserContext);
 	const [userInfo, setUserInfo] = useState({});
 	const [parking, setParking] = useState();
 	const navigate = useNavigate();
@@ -58,9 +58,19 @@ const TimeInParking = () => {
 							secondary="This is the total time you have been in our parking lot"
 							sx={{ color: "text.primary", fontWeight: "bold" }}
 						/>
+						<Typography sx={{ color: "text.primary", fontWeight: "bold" }}>
+							{`${realTime} hh/mm/ss`}
+						</Typography>
 					</ListItem>
 				</List>
-				<Button variant="contained" fullWidth onClick={() => navigate("/home")}>
+				<Button
+					variant="contained"
+					fullWidth
+					onClick={() => {
+						toggleTimer();
+						navigate("/home");
+					}}
+				>
 					finish parking time
 				</Button>
 			</Box>

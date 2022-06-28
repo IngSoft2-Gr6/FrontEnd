@@ -21,7 +21,7 @@ import RegisterVehicle from "../driver/registerVehicle";
 import QrCode from "../parking/QrCode";
 
 const Menu = () => {
-	const { user, logout, setEmployee } = useContext(UserContext);
+	const { user, logout, setEmployee, isActiveTimer } = useContext(UserContext);
 	const [modal, setModal] = useState(false);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [userRole, setUserRole] = useState([]);
@@ -94,6 +94,12 @@ const Menu = () => {
 							<MenuItem onClick={() => navigate("/home")}>
 								<Map /> Map
 							</MenuItem>
+							{isActiveTimer && (
+								<MenuItem onClick={() => navigate("/reserve/inparking")}>
+									<AppRegistrationIcon /> Return to time in parking
+								</MenuItem>
+							)}
+
 							{userRole.includes("Driver") && (
 								<div>
 									<MenuItem onClick={() => navigate("#newVehicle")}>
