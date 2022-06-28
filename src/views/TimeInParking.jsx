@@ -12,8 +12,7 @@ import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 const TimeInParking = () => {
-	const { user, realTime, toggleTimer, timer } = useContext(UserContext);
-	const [userInfo, setUserInfo] = useState({});
+	const { user, realTime, toggleTimer } = useContext(UserContext);
 	const [parking, setParking] = useState();
 	const navigate = useNavigate();
 

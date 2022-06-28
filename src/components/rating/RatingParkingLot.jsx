@@ -7,14 +7,12 @@ import {
 	TextField,
 	LinearProgress,
 	Button,
-	Hidden,
 } from "@mui/material";
 import API from "../../config/axios";
 import FormHooks from "../../hooks/formHooks";
 import { ratingSchema } from "../../schemas/rating";
 import { until } from "../../helpers/until";
 import { useState } from "react";
-import { useEffect, useContext } from "react";
 
 const RatingParkingLot = () => {
 	const { formProps, handleSubmit } = FormHooks(ratingSchema, "onChange");
