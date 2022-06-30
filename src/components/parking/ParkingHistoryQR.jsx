@@ -98,6 +98,8 @@ const ParkingHistoryQR = () => {
 			<Box my={4}>
 				{vehicleInfo && parkingInfo && (
 					<>
+						<br />
+						<br />
 						<Typography
 							variant="h4"
 							color="textPrimary"

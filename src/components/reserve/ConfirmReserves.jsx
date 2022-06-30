@@ -1,10 +1,8 @@
 import { Paper, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { UserContext } from "../../context/UserContext";
 
 const ConfirmReserve = () => {
-	const { toggleTimer } = useContext(UserContext);
+	const parkingId = JSON.parse(localStorage.getItem("actualParking")).id;
 	const navigate = useNavigate();
 
 	return (
@@ -14,8 +12,7 @@ const ConfirmReserve = () => {
 			</Typography>
 			<Button
 				onClick={() => {
-					toggleTimer();
-					navigate("/reserve/inparking");
+					navigate(`/parking/${parkingId}/history`);
 				}}
 			>
 				Accept

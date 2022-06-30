@@ -32,12 +32,7 @@ const Map = ({ theme }) => {
 	const location = useLocation();
 
 	const colorMap = () => {
-		const mode = localStorage.getItem("theme");
-		if (mode === "dark") {
-			return "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png";
-		} else {
-			return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-		}
+		return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 	};
 
 	const Parkings = async () => {

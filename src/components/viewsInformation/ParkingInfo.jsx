@@ -45,6 +45,8 @@ const ParkingInfo = () => {
 			<Box my={4}>
 				{parkingsInfo && (
 					<>
+						<br />
+						<br />
 						<Typography
 							variant="h4"
 							color="textPrimary"

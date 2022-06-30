@@ -1,9 +1,9 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import { Avatar } from "@mui/material";
 
 const AboutUs = () => {
 	return (
@@ -14,7 +14,16 @@ const AboutUs = () => {
 				</Typography>
 				<br />
 				<Card sx={{ maxWidth: 345 }}>
-					<CardMedia component="img" alt="profile" height="140"></CardMedia>
+					<Avatar
+						style={{
+							backgroundColor: "#4db6ac",
+							marginTop: "20px",
+							height: "100px",
+							width: "100px",
+						}}
+					>
+						<Typography variant="h4">D</Typography>
+					</Avatar>
 					<CardContent>
 						<Typography gutterBottom variant="h5" component="div">
 							David Hernandez
@@ -30,12 +39,16 @@ const AboutUs = () => {
 				</Card>
 				<br />
 				<Card sx={{ maxWidth: 345 }}>
-					<CardMedia
-						component="img"
-						alt="profile"
-						height="140"
-						image="src/img/icon.png"
-					/>
+					<Avatar
+						style={{
+							backgroundColor: "#ffb74d",
+							marginTop: "20px",
+							height: "100px",
+							width: "100px",
+						}}
+					>
+						<Typography variant="h4">S</Typography>
+					</Avatar>
 					<CardContent>
 						<Typography gutterBottom variant="h5" component="div">
 							Sebastian Garnica
@@ -51,12 +64,16 @@ const AboutUs = () => {
 				</Card>
 				<br />
 				<Card sx={{ maxWidth: 345 }}>
-					<CardMedia
-						component="img"
-						alt="profile"
-						height="140"
-						image="src/img/icon.png"
-					/>
+					<Avatar
+						style={{
+							backgroundColor: "#7986cb",
+							marginTop: "20px",
+							height: "100px",
+							width: "100px",
+						}}
+					>
+						<Typography variant="h4">H</Typography>
+					</Avatar>
 					<CardContent>
 						<Typography gutterBottom variant="h5" component="div">
 							Harrison Pinto
@@ -72,15 +89,19 @@ const AboutUs = () => {
 				</Card>
 				<br />
 				<Card sx={{ maxWidth: 345 }}>
-					<CardMedia
-						component="img"
-						alt="profile"
-						height="140"
-						image="src/img/icon.png"
-					/>
+					<Avatar
+						style={{
+							backgroundColor: "#f06292",
+							marginTop: "20px",
+							height: "100px",
+							width: "100px",
+						}}
+					>
+						<Typography variant="h4">K</Typography>
+					</Avatar>
 					<CardContent>
 						<Typography gutterBottom variant="h5" component="div">
-							Kevin Gonzales
+							Kevin Gonzalez
 						</Typography>
 						<Typography variant="body2" color="text.secondary">
 							I am a systems engineering student, I am frontend developer of
@@ -94,12 +115,16 @@ const AboutUs = () => {
 				</Card>
 				<br />
 				<Card sx={{ maxWidth: 345 }}>
-					<CardMedia
-						component="img"
-						alt="profile"
-						height="140"
-						image="src/img/icon.png"
-					/>
+					<Avatar
+						style={{
+							backgroundColor: "#fff176",
+							marginTop: "20px",
+							height: "100px",
+							width: "100px",
+						}}
+					>
+						<Typography variant="h4">S</Typography>
+					</Avatar>
 					<CardContent>
 						<Typography gutterBottom variant="h5" component="div">
 							Sergio Lopez

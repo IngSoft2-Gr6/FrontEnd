@@ -41,6 +41,8 @@ const CarInfo = () => {
 			<Box my={4}>
 				{vehicleInfo && (
 					<>
+						<br />
+						<br />
 						<Typography
 							variant="h4"
 							color="textPrimary"

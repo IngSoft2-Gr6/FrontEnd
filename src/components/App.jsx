@@ -81,8 +81,7 @@ const App = () => {
 				<div
 					style={{
 						position: "fixed",
-						bottom: 16,
-						left: "80%",
+						bottom: 55,
 						width: "100%",
 						zIndex: "1002",
 					}}
