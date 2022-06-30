@@ -42,6 +42,7 @@ const SignupForm = () => {
 			data = { ...data, token: employee };
 		}
 		const [err, res] = await until(API.post("/users/signup", data));
+		console.log({ err, res });
 		setSubmitting(false);
 		setEmployee(false);
 		if (err) return setStatus({ error: err.response.data?.message });

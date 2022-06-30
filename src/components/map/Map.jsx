@@ -22,7 +22,6 @@ import { useEffect, useContext } from "react";
 import ParkingRating from "../../views/ParkingLotRating";
 import ReserveConfirm from "../../views/ReserveConfirms";
 import { UserContext } from "../../context/UserContext";
-import Rating from "@mui/material/Rating";
 import { until } from "../../helpers/until";
 
 const Map = ({ theme }) => {
@@ -48,9 +47,15 @@ const Map = ({ theme }) => {
 		setParkings(res.data.data);
 	};
 
-	const RatingParking = (parkingLotId) => {
+	const RatingParking = async (parkingLotId) => {
 		localStorage.setItem("parkingLotId", parkingLotId);
 		console.log(localStorage.getItem("parkingLotId"));
+		const parkingId = localStorage.getItem("parkingLotId");
+		const [err, res] = await until(API.get(`/parkingLots/${parkingId}/rating`));
+		if (err) return;
+		if (!res) return;
+		console.log(res.data.data);
+		localStorage.setItem("ratings", JSON.stringify(res.data.data));
 		navigate("#rating");
 	};
 
@@ -77,7 +82,10 @@ const Map = ({ theme }) => {
 			/>
 
 			{parkings.map((parking) => (
-				<Marker position={{ lat: parking.coords[0], lng: parking.coords[1] }}>
+				<Marker
+					position={{ lat: parking.coords[0], lng: parking.coords[1] }}
+					key={parking.id}
+				>
 					<Popup>
 						<Paper
 							elevation={12}
@@ -107,12 +115,6 @@ const Map = ({ theme }) => {
 										<Grid item lg={9} md={8} sm={8} xs={12}>
 											<Typography variant="h6">{parking.name}</Typography>
 											<Typography>{parking.address}</Typography>
-											<Rating
-												name="Rating Parking Lot"
-												defaultValue={2.5}
-												precision={0.5}
-												readOnly
-											/>
 										</Grid>
 									</Grid>
 								</Grid>
@@ -174,18 +176,6 @@ const Map = ({ theme }) => {
 									<></>
 								)}
 
-								<Grid item xs={12}>
-									<Grid container spacing="3">
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<Typography style={{ margin: "0px" }}>
-												{" "}
-												Comments
-											</Typography>
-											<hr></hr>
-										</Grid>
-									</Grid>
-								</Grid>
-
 								{user ? (
 									<Grid item xs={12}>
 										<Grid container spacing="3">
@@ -202,62 +192,6 @@ const Map = ({ theme }) => {
 								) : (
 									<></>
 								)}
-
-								<Grid item xs={12}>
-									<Grid container spacing="50">
-										<Grid item lg={3} md={3} sm={3} xs={3}>
-											<Avatar style={{ left: "50%" }}>A</Avatar>
-										</Grid>
-										<Grid item lg={9} md={9} sm={9} xs={9}>
-											<Typography variant="h7">Nombre del usuario</Typography>
-											<Rating
-												name="Rating Parking Lot"
-												defaultValue={2.5}
-												precision={0.5}
-												readOnly
-											/>
-										</Grid>
-									</Grid>
-								</Grid>
-
-								<Grid item xs={12}>
-									<Grid container spacing="">
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<Typography style={{ margin: "0px" }}>
-												Comentario del usuario
-											</Typography>
-											<hr size="1"></hr>
-										</Grid>
-									</Grid>
-								</Grid>
-
-								<Grid item xs={12}>
-									<Grid container spacing="50">
-										<Grid item lg={3} md={3} sm={3} xs={3}>
-											<Avatar style={{ left: "50%" }}>A</Avatar>
-										</Grid>
-										<Grid item lg={9} md={9} sm={9} xs={9}>
-											<Typography variant="h7">Nombre del usuario</Typography>
-											<Rating
-												name="Rating Parking Lot"
-												defaultValue={2.5}
-												precision={0.5}
-												readOnly
-											/>
-										</Grid>
-									</Grid>
-								</Grid>
-
-								<Grid item xs={12}>
-									<Grid container>
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<Typography style={{ margin: "0px" }}>
-												Comentario del usuario
-											</Typography>
-											<hr size="1"></hr>
-										</Grid>
-									</Grid>
-								</Grid>
 							</Grid>
 						</Paper>
 					</Popup>

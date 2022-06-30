@@ -16,6 +16,7 @@ import { DarkMode, LightMode } from "@mui/icons-material";
 import { VerifyAccount, PasswordReset } from "./auth";
 import Parking from "../views/Parking";
 import BusinessHours from "../views/BusinessHours";
+import AboutUs from "../views/AboutUs";
 import ParkingUpdate from "../views/ParkingUpdate";
 import ParkingRating from "../views/ParkingLotRating";
 import DriverRating from "../views/DriverRating";
@@ -23,6 +24,8 @@ import TimeInParking from "../views/TimeInParking";
 import NewCar from "../views/NewCar";
 import Footer from "./layout/Footer";
 import CarsInfo from "../views/CarsInfo";
+import ParkingHistoryQR from "./parking/ParkingHistoryQR";
+import FrequentQuestion from "../views/FrequentQuestion";
 
 const App = () => {
 	const [theme, setTheme] = useState(getTheme());
@@ -43,6 +46,11 @@ const App = () => {
 							<Route exact path="vehicle" element={<CarsInfo />} />
 							<Route path="/">
 								<Route path="home" element={<Home theme={theme} />} />
+								<Route path="about" element={<AboutUs />} />
+								<Route
+									path="frequently-asked-questions"
+									element={<FrequentQuestion />}
+								/>
 								<Route path="users">
 									<Route path="profile" element={<Profile />} />
 									<Route path="verify/account" element={<VerifyAccount />} />
@@ -53,6 +61,10 @@ const App = () => {
 								<Route path="businesshours" element={<BusinessHours />} />
 								<Route path="update" element={<ParkingUpdate />} />
 								<Route path="rating" element={<DriverRating />} />
+								<Route
+									path=":parkingLotId/history"
+									element={<ParkingHistoryQR />}
+								/>
 							</Route>
 							<Route path="driver">
 								<Route path="rating" element={<ParkingRating />} />
