@@ -22,7 +22,6 @@ import { useEffect, useContext } from "react";
 import ParkingRating from "../../views/ParkingLotRating";
 import ReserveConfirm from "../../views/ReserveConfirms";
 import { UserContext } from "../../context/UserContext";
-import Rating from "@mui/material/Rating";
 import { until } from "../../helpers/until";
 
 const Map = ({ theme }) => {
@@ -83,7 +82,10 @@ const Map = ({ theme }) => {
 			/>
 
 			{parkings.map((parking) => (
-				<Marker position={{ lat: parking.coords[0], lng: parking.coords[1] }}>
+				<Marker
+					position={{ lat: parking.coords[0], lng: parking.coords[1] }}
+					key={parking.id}
+				>
 					<Popup>
 						<Paper
 							elevation={12}

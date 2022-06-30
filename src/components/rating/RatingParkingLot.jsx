@@ -15,8 +15,6 @@ import FormHooks from "../../hooks/formHooks";
 import { ratingSchema } from "../../schemas/rating";
 import { until } from "../../helpers/until";
 import { useState } from "react";
-import { useContext } from "react";
-import { UserContext } from "../../context/UserContext";
 
 const RatingParkingLot = () => {
 	const { formProps, handleSubmit } = FormHooks(ratingSchema, "onChange");
@@ -24,7 +22,6 @@ const RatingParkingLot = () => {
 	const [submitting, setSubmitting] = useState(false);
 	const [status, setStatus] = useState({});
 	const [rating, setRating] = useState();
-	const { user } = useContext(UserContext);
 
 	const onSubmit = async (data) => {
 		const parkingId = localStorage.getItem("parkingLotId");
