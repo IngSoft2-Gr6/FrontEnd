@@ -184,7 +184,7 @@ const ResponsiveAppBar = () => {
 									}}
 								>
 									<MenuItem
-										key="login"
+										key="instagram"
 										onClick={() => handleCloseMenu("#login")}
 									>
 										<Typography textAlign="center">Login</Typography>
