@@ -6,8 +6,18 @@ const password = yup
 	.min(8, "Password must be at least 8 characters long")
 	.test("zxcvbn", "Weak Password", function (value) {
 		const { path, createError } = this;
-		const info = zxcvbn(value);
-		const { score, feedback } = info;
+
+		const email = this.parent.email;
+		const invalidWords = [...email.split("@"), email];
+
+		if (this.parent.name) {
+			invalidWords.push(this.parent.name);
+		}
+
+		const estimation = zxcvbn(value, invalidWords);
+
+		const { score, feedback } = estimation;
+
 		if (score < 3) {
 			return createError({
 				message: feedback.suggestions[0],
