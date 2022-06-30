@@ -1,8 +1,23 @@
 import * as yup from "yup";
+import zxcvbn from "zxcvbn";
 
 const password = yup
 	.string()
 	.min(8, "Password must be at least 8 characters long")
+	.test("zxcvbn", "Weak Password", function (value) {
+		const { path, createError } = this;
+		const info = zxcvbn(value);
+		const { score, feedback } = info;
+		if (score < 3) {
+			return createError({
+				message: feedback.suggestions[0],
+				path: path,
+				// type: "zxcvbn",
+				// score: score,
+			});
+		}
+		return true;
+	})
 	.required();
 const confirmPassword = yup
 	.string()
