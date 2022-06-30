@@ -51,7 +51,6 @@ const Menu = () => {
 		}
 	}, [user, location, setEmployee]);
 	useEffect(() => {
-		debugger;
 		if (parkingHistory.parkingStartTime && !parkingHistory.parkingEndTime) {
 			setActiveParking(true);
 		}

@@ -58,7 +58,7 @@ const ParkingHistoryQR = () => {
 			if (!history) return console.log("History not found");
 
 			// check if last history has start time but not end time
-			if (history.data.data.length < 1) return;
+			if (history.data.data.length < 1) return setParkingState("Start parking");
 
 			const lastHistory = history.data.data[0];
 			console.log("lastHistory", lastHistory);

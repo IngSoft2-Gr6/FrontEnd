@@ -30,13 +30,17 @@ const ParkingHistory = () => {
 			<Typography align="center" variant="h5">
 				Parking History
 			</Typography>
-			<Typography align="center" variant="h6">
-				You have parked for {realTime}
-			</Typography>
+			{!parkingHistory?.amountToBePaid && (
+				<Typography align="center" variant="h6">
+					You have parked for {realTime}
+				</Typography>
+			)}
 			{/* Value to pay			 */}
-			<Typography variant="h6">
-				Value to pay: ${parkingHistory?.amountToBePaid || 0}
-			</Typography>
+			{parkingHistory?.amountToBePaid && (
+				<Typography variant="h6">
+					Value to pay: ${parkingHistory?.amountToBePaid || 0}
+				</Typography>
+			)}
 		</Paper>
 	);
 };
