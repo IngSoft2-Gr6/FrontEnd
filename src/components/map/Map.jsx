@@ -22,7 +22,6 @@ import { useEffect, useContext } from "react";
 import ParkingRating from "../../views/ParkingLotRating";
 import ReserveConfirm from "../../views/ReserveConfirms";
 import { UserContext } from "../../context/UserContext";
-import Rating from "@mui/material/Rating";
 import { until } from "../../helpers/until";
 
 const Map = ({ theme }) => {
@@ -33,12 +32,7 @@ const Map = ({ theme }) => {
 	const location = useLocation();
 
 	const colorMap = () => {
-		const mode = localStorage.getItem("theme");
-		if (mode === "dark") {
-			return "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png";
-		} else {
-			return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-		}
+		return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 	};
 
 	const Parkings = async () => {
