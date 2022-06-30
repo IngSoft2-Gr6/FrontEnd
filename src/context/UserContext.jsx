@@ -45,6 +45,7 @@ export const UserProvider = ({ children }) => {
 		}
 		return () => clearInterval(interval);
 	}, [isActiveTimer, timer]);
+	const [parkingHistory, setParkingHistory] = useState({});
 
 	const getUser = async () => {
 		if (!localStorage.getItem("loggedIn")) return;
@@ -76,6 +77,9 @@ export const UserProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
+		if (!parkingHistory) {
+			setParkingHistory(JSON.parse(localStorage.getItem("parkingHistory")));
+		}
 		if (user) return;
 		getUser();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,12 +93,14 @@ export const UserProvider = ({ children }) => {
 				getUser,
 				getVehicles,
 				logout,
+				parkingHistory,
 				parkings,
 				setEmployee,
 				toggleTimer,
 				isActiveTimer,
 				timer,
 				realTime,
+				setParkingHistory,
 				user,
 				vehicles,
 			}}

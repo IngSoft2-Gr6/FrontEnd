@@ -20,12 +20,15 @@ import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import RegisterVehicle from "../driver/registerVehicle";
 import QrCode from "../parking/QrCode";
 import UpdateProfile from "../profile/updateProfile";
+import ParkingHistory from "../parking/ParkingHistory";
 
 const Menu = () => {
-	const { user, logout, setEmployee, isActiveTimer } = useContext(UserContext);
+	const { user, logout, setEmployee, isActiveTimer, parkingHistory } =
+		useContext(UserContext);
 	const [modal, setModal] = useState(false);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [userRole, setUserRole] = useState([]);
+	const [activeParking, setActiveParking] = useState(false);
 	const location = useLocation();
 	const navigate = useNavigate();
 	const open = Boolean(anchorEl);
@@ -47,6 +50,15 @@ const Menu = () => {
 			return setEmployee(token);
 		}
 	}, [user, location, setEmployee]);
+	useEffect(() => {
+		debugger;
+		if (parkingHistory.parkingStartTime && !parkingHistory.parkingEndTime) {
+			setActiveParking(true);
+		}
+		if (parkingHistory.parkingEndTime) {
+			setActiveParking(false);
+		}
+	}, [parkingHistory]);
 
 	// button style
 	const buttonStyle = {
@@ -100,6 +112,11 @@ const Menu = () => {
 									<AppRegistrationIcon /> Return to time in parking
 								</MenuItem>
 							)}
+							{activeParking && (
+								<MenuItem onClick={() => navigate("#parkingHistory")}>
+									<AppRegistrationIcon /> My Parking Info
+								</MenuItem>
+							)}
 
 							{userRole.includes("Driver") && (
 								<div>
@@ -150,6 +167,7 @@ const Menu = () => {
 					{modal === "newVehicle" && <RegisterVehicle />}
 					{modal === "qrcode" && <QrCode />}
 					{modal === "updateProfile" && <UpdateProfile />}
+					{modal === "parkingHistory" && <ParkingHistory />}
 				</Box>
 			</Modal>
 		</>
