@@ -7,7 +7,7 @@ const password = yup
 	.test("zxcvbn", "Weak Password", function (value) {
 		const { path, createError } = this;
 
-		const email = this.parent.email;
+		const email = this.parent.email || "";
 		const invalidWords = [...email.split("@"), email];
 
 		if (this.parent.name) {
