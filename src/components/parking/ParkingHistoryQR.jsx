@@ -6,12 +6,14 @@ import {
 	Container,
 	Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import API from "../../config/axios";
+import { UserContext } from "../../context/UserContext";
 import { until } from "../../helpers/until";
 
 const ParkingHistoryQR = () => {
+	const { setParkingHistory } = useContext(UserContext);
 	const [vehicleInfo, setVehicleInfo] = useState([]);
 	const [parkingInfo, setParkingInfo] = useState({});
 	const [parkingState, setParkingState] = useState("");
@@ -84,6 +86,9 @@ const ParkingHistoryQR = () => {
 		);
 		if (err) return console.log(err.response.data?.message);
 		if (!res) return console.log("No history found");
+
+		setParkingHistory(res.data.data);
+		localStorage.setItem("parkingHistory", JSON.stringify(res.data.data));
 
 		navigate("/home#parkingHistory");
 	};
