@@ -23,6 +23,7 @@ import TimeInParking from "../views/TimeInParking";
 import NewCar from "../views/NewCar";
 import Footer from "./layout/Footer";
 import CarsInfo from "../views/CarsInfo";
+import ParkingHistoryQR from "./parking/ParkingHistoryQR";
 
 const App = () => {
 	const [theme, setTheme] = useState(getTheme());
@@ -53,6 +54,10 @@ const App = () => {
 								<Route path="businesshours" element={<BusinessHours />} />
 								<Route path="update" element={<ParkingUpdate />} />
 								<Route path="rating" element={<DriverRating />} />
+								<Route
+									path=":parkingLotId/history"
+									element={<ParkingHistoryQR />}
+								/>
 							</Route>
 							<Route path="driver">
 								<Route path="rating" element={<ParkingRating />} />
