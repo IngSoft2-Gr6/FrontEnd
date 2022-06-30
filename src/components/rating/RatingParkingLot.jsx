@@ -7,19 +7,24 @@ import {
 	TextField,
 	LinearProgress,
 	Button,
+	Grid,
+	Avatar,
 } from "@mui/material";
 import API from "../../config/axios";
 import FormHooks from "../../hooks/formHooks";
 import { ratingSchema } from "../../schemas/rating";
 import { until } from "../../helpers/until";
 import { useState } from "react";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 const RatingParkingLot = () => {
 	const { formProps, handleSubmit } = FormHooks(ratingSchema, "onChange");
-
+	const ratings = JSON.parse(localStorage.getItem("ratings"));
 	const [submitting, setSubmitting] = useState(false);
 	const [status, setStatus] = useState({});
 	const [rating, setRating] = useState();
+	const { user } = useContext(UserContext);
 
 	const onSubmit = async (data) => {
 		const parkingId = localStorage.getItem("parkingLotId");
@@ -40,6 +45,7 @@ const RatingParkingLot = () => {
 			elevation={24}
 			style={{ padding: "1rem", borderRadius: "1rem" }}
 			onSubmit={handleSubmit(onSubmit)}
+			sx={{ overflow: "auto", maxHeight: "90vh" }}
 		>
 			{submitting && <LinearProgress />}
 			<Typography
@@ -73,6 +79,53 @@ const RatingParkingLot = () => {
 			<Button type="submit" variant="contained" fullWidth>
 				Rate
 			</Button>
+			<Grid container spacing="15" width="100%">
+				<Grid item xs={12}>
+					<Grid container spacing="3">
+						<Grid item lg={12} md={12} sm={12} xs={12}>
+							<Typography> Comments</Typography>
+							<hr></hr>
+						</Grid>
+					</Grid>
+				</Grid>
+
+				{ratings.map((rating) => (
+					<>
+						<Grid item xs={12}>
+							<Grid container spacing="50">
+								<Grid item lg={3} md={3} sm={3} xs={3}>
+									<Avatar sx={{ left: "50%", bgcolor: "primary.main" }}>
+										{rating.driverName.charAt(0)}
+									</Avatar>
+								</Grid>
+								<Grid item lg={9} md={9} sm={9} xs={9}>
+									<Typography variant="h7">{rating.driverName}</Typography>
+									<br />
+									<Rating
+										name="Rating Parking Lot"
+										defaultValue={rating.ratingParkingLot}
+										precision={0.5}
+										readOnly
+									/>
+								</Grid>
+							</Grid>
+						</Grid>
+
+						<Grid item xs={12}>
+							<Grid container spacing="">
+								<Grid item lg={12} md={12} sm={12} xs={12}>
+									<Typography
+										style={{ margin: "0px", width: "100%", overflow: "auto" }}
+									>
+										{rating.commentParkingLot}
+									</Typography>
+									<hr size="1"></hr>
+								</Grid>
+							</Grid>
+						</Grid>
+					</>
+				))}
+			</Grid>
 		</Paper>
 	);
 };
